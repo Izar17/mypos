@@ -1,0 +1,78 @@
+{
+  "Resources/ts/Gastro.ts": {
+    "css": [
+      "assets/gastro-assets-61a733a8.css"
+    ],
+    "dynamicImports": [
+      "Resources/ts/components/gastro-table-button.ts",
+      "Resources/ts/components/gastro-pos-orders-button.ts",
+      "Resources/ts/components/gastro-split-orders-button.ts",
+      "Resources/ts/components/gastro-merge-orders-button.ts"
+    ],
+    "file": "assets/Gastro-b5be35a3.js",
+    "imports": [
+      "_gastro-kitchen-settings-c82407e2.js"
+    ],
+    "isEntry": true,
+    "src": "Resources/ts/Gastro.ts"
+  },
+  "Resources/ts/GastroKitchen.ts": {
+    "css": [
+      "assets/gastro-assets-61a733a8.css"
+    ],
+    "file": "assets/GastroKitchen-3f49dee3.js",
+    "imports": [
+      "_gastro-kitchen-settings-c82407e2.js"
+    ],
+    "isEntry": true,
+    "src": "Resources/ts/GastroKitchen.ts"
+  },
+  "Resources/ts/components/gastro-merge-orders-button.ts": {
+    "css": [
+      "assets/gastro-assets-61a733a8.css"
+    ],
+    "file": "assets/gastro-merge-orders-button-0c01394d.js",
+    "imports": [
+      "Resources/ts/Gastro.ts",
+      "_gastro-kitchen-settings-c82407e2.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "Resources/ts/components/gastro-merge-orders-button.ts"
+  },
+  "Resources/ts/components/gastro-pos-orders-button.ts": {
+    "file": "assets/gastro-pos-orders-button-d8a2209f.js",
+    "isDynamicEntry": true,
+    "src": "Resources/ts/components/gastro-pos-orders-button.ts"
+  },
+  "Resources/ts/components/gastro-split-orders-button.ts": {
+    "css": [
+      "assets/gastro-assets-61a733a8.css"
+    ],
+    "file": "assets/gastro-split-orders-button-663bfb97.js",
+    "imports": [
+      "Resources/ts/Gastro.ts",
+      "_gastro-kitchen-settings-c82407e2.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "Resources/ts/components/gastro-split-orders-button.ts"
+  },
+  "Resources/ts/components/gastro-table-button.ts": {
+    "css": [
+      "assets/gastro-assets-61a733a8.css"
+    ],
+    "file": "assets/gastro-table-button-a4c725cd.js",
+    "imports": [
+      "Resources/ts/Gastro.ts",
+      "_gastro-kitchen-settings-c82407e2.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "Resources/ts/components/gastro-table-button.ts"
+  },
+  "_gastro-kitchen-settings-c82407e2.js": {
+    "file": "assets/gastro-kitchen-settings-c82407e2.js"
+  },
+  "gastro-assets.css": {
+    "file": "assets/gastro-assets-61a733a8.css",
+    "src": "gastro-assets.css"
+  }
+}

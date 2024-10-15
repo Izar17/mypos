@@ -1,0 +1,55 @@
+{
+    "name"  : "Side Orders",
+    "description" : "This can be added to an order.",
+    "products" : [
+        {
+            "image": "side-orders/spinaci-saltati.jpeg",
+            "name" : "Spinaci Saltati",
+            "price" : 5.7
+        }, {
+            "image": "side-orders/spinaci-bolliti.jpeg",
+            "name" : "Spinaci Bolliti",
+            "price" : 5.7
+        }, {
+            "image": "side-orders/patate-arrosto.jpeg",
+            "name" : "Patate Arrosto",
+            "price" : 5.2
+        }, {
+            "image": "side-orders/patate-fritte.jpeg",
+            "name" : "Patate Fritte",
+            "price" : 4.4
+        }, {
+            "image": "side-orders/patate-puree.jpeg",
+            "name" : "Patate Puree",
+            "price" : 4.2
+        }, {
+            "image": "side-orders/napoletana-side.jpeg",
+            "name" : "Napoletana Side",
+            "price" : 7.4
+        }, {
+            "image": "side-orders/zucchine-fritte.jpeg",
+            "name" : "Zucchine Fritte",
+            "price" : 7.8
+        }, {
+            "image": "side-orders/vegetali-grigliati.jpeg",
+            "name" : "Vegetali Grigliati",
+            "price" : 6.2
+        }, {
+            "image": "side-orders/rucola.jpeg",
+            "name" : "Rucola",
+            "price" : 6
+        }, {
+            "image": "side-orders/insalata-verde.jpeg",
+            "name" : "Insalata Verde",
+            "price" : 5.9
+        }, {
+            "image": "side-orders/insalata-mista.jpeg",
+            "name" : "Insalata Mista",
+            "price" : 5.9
+        }, {
+            "image": "side-orders/piselli-bolliti.jpeg",
+            "name" : "Piselli Bolliti",
+            "price" : 4.6
+        }
+    ]
+}

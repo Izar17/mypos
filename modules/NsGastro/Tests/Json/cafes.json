@@ -1,0 +1,59 @@
+{
+    "name"  : "McCafé",
+    "disable-modifier": true,
+    "products" : [
+        {
+            "image": "cafes/medium-premium-roast-coffee.jpeg",
+            "name" : "Medium Premium Roast Coffee",
+            "price" : "2.13"
+        }, {
+            "image": "cafes/medium-decaf-coffee.jpeg",
+            "name" : "Medium Decaf Coffee",
+            "price" : "2.3"
+        }, {
+            "image": "cafes/medium-iced-coffee.jpeg",
+            "name" : "Medium Iced Coffee",
+            "price" : "2.0"
+        }, {
+            "image": "cafes/mc-cafe-cinnamon-roll.jpeg",
+            "name" : "McCafé Cinnamon Roll",
+            "price" : "2.99"
+        }, {
+            "image": "cafes/medium-iced-caramel-coffee.jpeg",
+            "name" : "Medium Iced Caramel Coffee",
+            "price" : "2.0"
+        }, {
+            "image": "cafes/medium-premium-hot-chocolate.jpeg",
+            "name" : "Medium Premium Hot Chocolate",
+            "price" : "3.45"
+        }, {
+            "image": "cafes/medium-blue-raspberry-slushie-minute-maid.jpeg",
+            "name" : "Medium Blue Raspberry Slushie Minute Maid",
+            "price" : "1.48"
+        }, {
+            "image": "cafes/medium-fruit-punch-slushie-minute-maid.jpeg",
+            "name" : "Medium Fruit Punch Slushie Minute Maid",
+            "price" : "1.78"
+        }, {
+            "image": "cafes/medium-mocha-frappe.jpeg",
+            "name" : "Medium Mocha Frappé",
+            "price" : "1.78"
+        }, {
+            "image": "cafes/medium-caramel-frappe.jpeg",
+            "name" : "Medium Caramel Frappé",
+            "price" : "1.78"
+        }, {
+            "image": "cafes/medium-caramel-macchiato.jpeg",
+            "name" : "Medium Caramel Macchiato",
+            "price" : "3.45"
+        }, {
+            "image": "cafes/medium-caramel-mocha.jpeg",
+            "name" : "Medium Caramel Mocha",
+            "price" : "3.45"
+        }, {
+            "image": "cafes/medium-iced-caramel-macchiato.jpeg",
+            "name" : "Medium Iced Caramel Macchiato",
+            "price" : "3.45"
+        }
+    ]
+}

@@ -1,0 +1,47 @@
+{
+    "name"  : "Starters",
+    "description" : "Starter meals for the current day.",
+    "products" : [
+        {
+            "image": "starters/minestrone.jpeg",
+            "name" : "Minestrone",
+            "price" : "8.3"
+        }, {
+            "image": "starters/bruschetta-ai-funghi.jpeg",
+            "name" : "Bruschetta Ai Funghi",
+            "price" : "12.4"
+        }, {
+            "image": "starters/burrata-pugliese.jpeg",
+            "name" : "Burrata Pugliese",
+            "price" : "14.8"
+        }, {
+            "image": "starters/calamari-fritti.jpeg",
+            "name" : "Calamari Fritti",
+            "price" : "14.8"
+        }, {
+            "image": "starters/tartare-di-tonno.jpeg",
+            "name" : "Tartare di Tonno",
+            "price" : "14.7"
+        }, {
+            "image": "starters/scamorza-ai-ferri.jpeg",
+            "name" : "Scamorza ai Ferri",
+            "price" : "11.9"
+        }, {
+            "image": "starters/carpaccio-di-manzo.jpeg",
+            "name" : "Carpaccio di Manzo",
+            "price" : "13.80"
+        }, {
+            "image": "starters/bresaola-della-valtellina.jpeg",
+            "name" : "Bresaola della Valtellina",
+            "price" : "13.90"
+        }, {
+            "image": "starters/cozze-e-vongole.jpeg",
+            "name" : "Cozze e Vongole",
+            "price" : "14.50"
+        }, {
+            "image": "starters/prosciutto-e-mozzarella.jpeg",
+            "name" : "Prosciutto e Mozzarella",
+            "price" : "13.50"
+        }
+    ]
+}

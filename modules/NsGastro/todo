@@ -1,0 +1,4 @@
+* modifier product should only have one default unit.
+- make sure the quantity of the modifier defined match the remaining quantity.
+
+- make order history can bee configured (time span)

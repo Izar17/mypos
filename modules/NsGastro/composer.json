@@ -1,0 +1,14 @@
+{
+    "name": "blair2004/nsgastro",
+    "require": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "authors": [
+        {
+            "name": "Blair2004",
+            "email": "carlosjohnsonluv2004@gmail.com"
+        }
+    ],
+    "autoload": {
+    }
+}

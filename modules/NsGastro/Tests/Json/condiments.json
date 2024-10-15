@@ -1,0 +1,59 @@
+{
+    "name"  : "Condiments",
+    "description" : "Additional condiments that can be added to meals",
+    "products" : [
+        {
+            "image": "condiments/creamer-packet.jpeg",
+            "name" : "Creamer Packet",
+            "price" : "0.0"
+        }, {
+            "image": "condiments/sugar-packet.jpeg",
+            "name" : "Sugar Packet",
+            "price" : "0"
+        }, {
+            "image": "condiments/equal-packet.jpeg",
+            "name" : "Equal Packet",
+            "price" : "0.0"
+        }, {
+            "image": "condiments/pepper-packet.jpeg",
+            "name" : "Pepper Packet",
+            "price" : "0"
+        }, {
+            "image": "condiments/cream-cheese.jpeg",
+            "name" : "Cream Cheese",
+            "price" : "0.78"
+        }, {
+            "image": "condiments/salt-packet.jpeg",
+            "name" : "Salt Packet",
+            "price" : "3.45"
+        }, {
+            "image": "condiments/splenda-packet.jpeg",
+            "name" : "Splenda Packet",
+            "price" : "0"
+        }, {
+            "image": "condiments/ketchup-packet.jpeg",
+            "name" : "Ketchup Packet",
+            "price" : "0"
+        }, {
+            "image": "condiments/tangy-bbq-dipping-sauce.jpeg",
+            "name" : "Tangy BBQ Dipping Sauce",
+            "price" : "0"
+        }, {
+            "image": "condiments/sweet-n-sour-dipping-sauce.jpeg",
+            "name" : "Sweet N Sour Dipping Sauce",
+            "price" : 0
+        }, {
+            "image": "condiments/honey-packet.jpeg",
+            "name" : "Honey Packet",
+            "price" : "0"
+        }, {
+            "image": "condiments/hot-mustard-dipping-sauce.jpeg",
+            "name" : "Hot Mustard Dipping Sauce",
+            "price" : "0"
+        }, {
+            "image": "condiments/creamy-ranch-sauce.jpeg",
+            "name" : "Creamy Ranch Sauce",
+            "price" : "0"
+        }
+    ]
+}

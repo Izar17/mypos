@@ -1,0 +1,35 @@
+{
+    "name"  : "Sauces",
+    "description" : "All additional sauce that can be added to orders.",
+    "products" : [
+        {
+            "image": "sauces/bechamel.jpeg",
+            "name" : "Bechamel",
+            "price" : 0.70
+        }, {
+            "image": "sauces/demi-glace.jpeg",
+            "name" : "Demi Glace",
+            "price" : "0"
+        }, {
+            "image": "sauces/espanol.jpeg",
+            "name" : "Espanol",
+            "price" : "0.0"
+        }, {
+            "image": "sauces/hollandaise.jpeg",
+            "name" : "Hollandaise",
+            "price" : "0"
+        }, {
+            "image": "sauces/mayonnaise.jpeg",
+            "name" : "Mayonnaise",
+            "price" : 0.75
+        }, {
+            "image": "sauces/tomato.jpeg",
+            "name" : "Tomato Sauce",
+            "price" : 0.25
+        }, {
+            "image": "sauces/veloute.jpeg",
+            "name" : "Veloute",
+            "price" : 1.1
+        }
+    ]
+}

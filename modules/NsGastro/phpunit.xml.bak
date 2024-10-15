@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="Feature">
+      <directory suffix="GastroHardReset.php">./Tests/Feature</directory>
+      <directory suffix="GastroEnableModule.php">./Tests/Feature</directory>
+      <directory suffix="GastroTruncateTablesTest.php">./Tests/Feature</directory>
+      <directory suffix="GastroResetUserStatTest.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateUnitGroup.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateUnit.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateTaxGroupTest.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateCategories.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateCustomerGroupTest.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateCustomerTest.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateProviderTest.php">./Tests/Feature</directory>
+      <directory suffix="GastroRefreshReportForPastDaysTest.php">./Tests/Feature</directory>
+      <directory suffix="GastroConfigureAccountingTest.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateTableAndAreas.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateKitchens.php">./Tests/Feature</directory>
+      <directory suffix="GastroCancelOrderFromKitchen.php">./Tests/Feature</directory>
+      <directory suffix="GastroTestSplitOrder.php">./Tests/Feature</directory>
+      <directory suffix="GastroCookOrderFromKitchen.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateOrderToTable.php">./Tests/Feature</directory>
+      <directory suffix="GastroCreateOrderWithSkipCooking.php">./Tests/Feature</directory>
+      <directory suffix="GastroTestPrintedItemsAreHidden.php">./Tests/Feature</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <server name="APP_ENV" value="TESTING"/>
+    <server name="BCRYPT_ROUNDS" value="4"/>
+    <server name="CACHE_DRIVER" value="array"/>
+    <server name="DB_CONNECTION" value="mysql"/>
+    <server name="MAIL_MAILER" value="array"/>
+    <server name="QUEUE_CONNECTION" value="sync"/>
+    <server name="BROADCAST_DRIVER" value="log"/>
+    <server name="SESSION_DRIVER" value="array"/>
+    <server name="TELESCOPE_ENABLED" value="FALSE"/>
+    <server name="SANCTUM_STATEFUL_DOMAINS" value="nexopos-v4.std"/>
+    <server name="SESSION_DOMAIN" value="nexopos-v4.std"/>
+  </php>
+</phpunit>

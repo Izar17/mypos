@@ -1,0 +1,52 @@
+{
+    "name"  : "Beverages",
+    "disable-modifier": true,
+    "stock-management": true,
+    "products" : [
+        {
+            "image": "beverages/medium-coke.jpeg",
+            "name" : "Medium Coke",
+            "price" : "1.0"
+        }, {
+            "image": "beverages/medium-diet-coke.jpeg",
+            "name" : "Medium Diet Coke",
+            "price" : "1.10"
+        }, {
+            "image": "beverages/medium-sprite.jpeg",
+            "name" : "Medium Sprite",
+            "price" : "1.0"
+        }, {
+            "image": "beverages/medium-fanta-orange.jpeg",
+            "name" : "Medium Fanta Orange",
+            "price" : "1.25"
+        }, {
+            "image": "beverages/medium-dr-pepper.jpeg",
+            "name" : "Medium Dr Pepper",
+            "price" : "1.0"
+        }, {
+            "image": "beverages/medium-powerade.jpeg",
+            "name" : "Medium Powerade",
+            "price" : "1.30"
+        }, {
+            "image": "beverages/medium-red-flash.jpeg",
+            "name" : "Medium Red Flash",
+            "price" : "1.43"
+        }, {
+            "image": "beverages/medium-mix-by-sprite-tropic-berry.jpeg",
+            "name" : "Medium MIX by Sprite Tropic Berry",
+            "price" : "1.0"
+        }, {
+            "image": "beverages/medium-minute-maid-orange-juice.jpeg",
+            "name" : "Medium Minute Maid® Orange Juice",
+            "price" : "1.17"
+        }, {
+            "image": "beverages/dasani-bottled-water.jpeg",
+            "name" : "Dasani® Bottled Water",
+            "price" : "2.82"
+        }, {
+            "image": "beverages/milk.jpeg",
+            "name" : "Milk",
+            "price" : "2.82"
+        }
+    ]
+}

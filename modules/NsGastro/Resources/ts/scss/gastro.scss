@@ -1,0 +1,93 @@
+@tailwind components;
+@tailwind utilities;
+
+.light {
+    .item-yellow {
+        @apply go-bg-yellow-100;
+        h4, h3, small, span {
+            @apply go-text-slate-700;
+        }
+    }
+    .item-blue {
+        @apply go-bg-blue-100;
+        h4, h3, small, span {
+            @apply go-text-slate-700;
+        }
+    }
+    .item-green {
+        @apply go-bg-green-100;
+        h4, h3, small, span {
+            @apply go-text-slate-700;
+        }
+    }
+    .item-red {
+        @apply go-bg-red-100;
+        h4, h3, small, span {
+            @apply go-text-slate-700;
+        }
+    }
+
+    .gastro-pill {
+        &.info {
+            @apply go-bg-blue-600 go-text-white;
+        }
+        &.success {
+            @apply go-bg-green-600 go-text-white;
+        }
+    }
+
+    .single-modifier {
+        @apply go-bg-blue-50;
+    }
+}
+
+.dark {
+    .item-yellow {
+        @apply go-bg-yellow-600 go-text-white;
+        h4, h3, small, span {
+            @apply go-text-white;
+        }
+    }
+    .item-blue {
+        @apply go-bg-blue-600 go-text-white;
+        h4, h3, small, span {
+            @apply go-text-white;
+        }
+    }
+    .item-green {
+        @apply go-bg-green-600 go-text-white;
+        h4, h3, small, span {
+            @apply go-text-white;
+        }
+    }
+    .item-red {
+        @apply go-bg-red-600 go-text-white;
+        h4, h3, small, span {
+            @apply go-text-white;
+        }
+    }
+
+    .gastro-pill {
+        &.info {
+            @apply go-bg-blue-600 go-text-white;
+        }
+        &.success {
+            @apply go-bg-green-700 go-text-white;
+        }
+    }
+
+    .single-modifier {
+        @apply go-bg-blue-700 go-text-white;
+    }
+}
+
+.light .modifier-item {
+    background:rgb(255 255 255 / 73%);
+}
+.dark .modifier-item {
+    background:rgb(0 0 0 / 73%);
+}
+.meal-selected {
+    box-shadow:inset 0px 0px 0px 4px #1861ff85;
+    background: #6596ff85;
+}

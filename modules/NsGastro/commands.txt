@@ -1,0 +1,2 @@
+php artisan test modules/NsGastro/Tests/Feature/GastroTestPrintedItemsAreHidden.php --config=modules/NsGastro/phpunit.xml
+php artisan test --config=modules/NsGastro

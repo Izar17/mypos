@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "outDir": "./Public/js",
+        "target": "ESNext",
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "lib": [
+            "es2019",
+            "DOM"
+        ],
+        "rootDir": ".",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "Resources/ts/*"
+            ]
+        },
+    },
+    "include": [
+        "Resources/ts/**/*.ts",
+        "Resources/ts/**/*.js",
+        "Resources/ts/**/*.vue",
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

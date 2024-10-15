@@ -1,0 +1,44 @@
+{
+  "name": "NsGastro",
+  "engines": {
+    "node": "16.x"
+  },
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "vite build --watch",
+    "prod": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blair2004/NsGastro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blair2004/NsGastro/issues"
+  },
+  "homepage": "https://github.com/blair2004/NsGastro#readme",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "filereader-stream": "^2.0.0",
+    "mitt": "^3.0.1",
+    "ts-loader": "^9.4.0",
+    "vue": "^3.2.47",
+    "vue-masonry": "^0.16.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "@vue/compiler-sfc": "^3.2.47",
+    "@vue/component-compiler-utils": "^3.3.0",
+    "autoprefixer": "^10.4.19",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.0",
+    "vite": "^4.2.1",
+    "webpack-cli": "^4.9.1"
+  }
+}

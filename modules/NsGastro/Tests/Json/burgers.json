@@ -1,0 +1,47 @@
+{
+    "name"  : "Burgers",
+    "disable-modifier": true,
+    "products" : [
+        {
+            "image": "burgers/bacon-egg-cheese-biscuit.jpeg",
+            "name" : "Bacon Egg Cheese Biscuit",
+            "price" : "4.07"
+        }, {
+            "image": "burgers/sausage-egg-biscuit.jpeg",
+            "name" : "Sausage Egg Biscuit",
+            "price" : "5.44"
+        }, {
+            "image": "burgers/sausage-biscuit.jpeg",
+            "name" : "Sausage Biscuit",
+            "price" : "1.38"
+        }, {
+            "image": "burgers/mc-chicken-biscuit.jpeg",
+            "name" : "McChicken Biscuit",
+            "price" : "1.80"
+        }, {
+            "image": "burgers/sausage-egg-cheese-biscuit.jpeg",
+            "name" : "Sausage Egg Cheese Biscuit",
+            "price" : "1.80"
+        }, {
+            "image": "burgers/biscuit.jpeg",
+            "name" : "Biscuit",
+            "price" : "0.80"
+        }, {
+            "image": "burgers/egg-mc-muffin.jpeg",
+            "name" : "Egg McMuffin",
+            "price" : "4.80"
+        }, {
+            "image": "burgers/sausage-egg-mc-muffin.jpeg",
+            "name" : "Sausage Egg McMuffin",
+            "price" : "3.45"
+        }, {
+            "image": "burgers/sausage-mc-muffin.jpeg",
+            "name" : "Sausage McMuffin",
+            "price" : "1.45"
+        }, {
+            "image": "burgers/bacon-egg-cheese-mc-griddle.jpeg",
+            "name" : "Bacon Egg Cheese McGriddle",
+            "price" : "5.23"
+        }
+    ]
+}

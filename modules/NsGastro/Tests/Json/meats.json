@@ -1,0 +1,55 @@
+{
+    "name"  : "Meats",
+    "description" : "All meals based on beef meat",
+    "products" : [
+        {
+            "image": "meats/cotoletta-alla-milanese.jpeg",
+            "name" : "Cotoletta alla Milanese",
+            "price" : 22.9
+        }, {
+            "image": "meats/manzo-ai-funghi.jpeg",
+            "name" : "Manzo ai Funghi",
+            "price" : 24.9
+        }, {
+            "image": "meats/vitello-al-marsala.jpeg",
+            "name" : "Vitello al Marsala",
+            "price" : 20.2
+        }, {
+            "image": "meats/vitello-crema-e-funghi.jpeg",
+            "name" : "Vitello Crema e Funghi",
+            "price" : 20.2
+        }, {
+            "image": "meats/vitello-alla-pizzaiola.jpeg",
+            "name" : "Vitello alla Pizzaiola",
+            "price" : 20.2
+        }, {
+            "image": "meats/saltimbocca-alla-romana.jpeg",
+            "name" : "Saltimbocca alla Romana",
+            "price" : 21.7
+        }, {
+            "image": "meats/vitello-parmigiana.jpeg",
+            "name" : "Vitello Parmigiana",
+            "price" : 21.7
+        }, {
+            "image": "meats/ossobuco-alla-milanese.jpeg",
+            "name" : "Ossobuco alla Milanese",
+            "price" : 28.9
+        }, {
+            "image": "meats/pollo-alla-boscaiola.jpeg",
+            "name" : "Pollo alla Boscaiola",
+            "price" : 19.1
+        }, {
+            "image": "meats/petto-di-pollo-alla-griglia.jpeg",
+            "name" : "Petto Di Pollo Alla Griglia",
+            "price" : 19.1
+        }, {
+            "image": "meats/pollo-milanese.jpeg",
+            "name" : "Pollo Milanese",
+            "price" : 21.6
+        }, {
+            "image": "meats/cote-de-boeuf.jpeg",
+            "name" : "Cote de Boeuf",
+            "price" : 36.50
+        }
+    ]
+}

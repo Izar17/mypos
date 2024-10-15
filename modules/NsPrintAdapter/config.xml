@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<module>
+    <namespace>NsPrintAdapter</namespace>
+    <version>5.2.2</version>
+    <author>Blair Jersyer</author>
+    <name>NPS Adapter</name>
+    <description>Provides various solutions for printing on NexoPOS 4.x.</description>
+    <core min-version="5.2.0" max-version="5.3.0"/>
+</module>
