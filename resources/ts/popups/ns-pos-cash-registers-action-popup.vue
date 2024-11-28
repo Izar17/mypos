@@ -36,28 +36,7 @@ input[type="number"] {
           </div>
         </div>
         <div class="flex flex-col md:flex-row md:-mx-2">
-          <div
-            v-if="action == 'close'"
-            id="app"
-            class="md:px-2 md:w-1/2 w-full"
-          >
-            Denomination <br />
-              <div
-                class="denomination"
-                v-for="(denom, index) in denominations"
-                :key="index"
-              >
-                <label>{{ denom.label }}:</label>
-                <input
-                  type="number"
-                  v-model.number="denom.value"
-                  min="0"
-                  placeholder="0"
-                />
-              </div>
-              <button @next="submit($event)" :value="test" @click="definedValue($event)">Submit</button>
-          </div>
-          <div v-else class="md:px-2 md:w-1/2 w-full">
+          <div class="md:px-2 md:w-1/2 w-full">
             <ns-numpad
               :floating="true"
               @next="submit($event)"
@@ -88,6 +67,7 @@ import nsPosConfirmPopupVue from "./ns-pos-confirm-popup.vue";
 import { __ } from "~/libraries/lang";
 import { nsCurrency } from "~/filters/currency";
 
+
 export default {
   components: {
     // ...
@@ -107,17 +87,6 @@ export default {
       validation: new FormValidation(),
       fields: [],
       isSubmitting: false,
-      denominations: [
-        { label: "₱1000", value: 0, multiplier: 1000 },
-        { label: "₱500", value: 0, multiplier: 500 },
-        { label: "₱200", value: 0, multiplier: 200 },
-        { label: "₱100", value: 0, multiplier: 100 },
-        { label: "₱50", value: 0, multiplier: 50 },
-        { label: "₱20", value: 0, multiplier: 20 },
-        { label: "₱10", value: 0, multiplier: 10 },
-        { label: "₱5", value: 0, multiplier: 5 },
-        { label: "₱1", value: 0, multiplier: 1 },
-      ],
     };
   },
   mounted() {
@@ -203,11 +172,6 @@ export default {
             this.isSubmitting = false;
           },
         });
-    },
-  },
-  computed: {
-    amount() {
-      return this.denominations.reduce((sum, denom) => sum + denom.value * denom.multiplier, 0);
     },
   },
 };

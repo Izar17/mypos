@@ -701,7 +701,7 @@
     ]
   },
   "resources/ts/pages/dashboard/pos/header-buttons/ns-pos-registers-button.vue": {
-    "file": "assets/ns-pos-registers-button-Bt2lNzMS.js",
+    "file": "assets/ns-pos-registers-button-CWnx1r7G.js",
     "name": "ns-pos-registers-button",
     "src": "resources/ts/pages/dashboard/pos/header-buttons/ns-pos-registers-button.vue",
     "isDynamicEntry": true,
@@ -1220,7 +1220,7 @@
     ]
   },
   "resources/ts/pos-init.ts": {
-    "file": "assets/pos-init-JQoCFaKZ.js",
+    "file": "assets/pos-init-CGtmDIAm.js",
     "name": "pos-init",
     "src": "resources/ts/pos-init.ts",
     "isEntry": true,
