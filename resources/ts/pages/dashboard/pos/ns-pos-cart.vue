@@ -44,13 +44,14 @@
                                 </button>
                             </div>
                             <hr class="h-10" style="width: 1px">
-                            <div class="ns-button" v-if="options.ns_pos_quick_product === 'yes'">
+
+                            <!-- Add Product <div class="ns-button" v-if="options.ns_pos_quick_product === 'yes'">
                                 <button @click="openAddQuickProduct()" class="w-full h-10 px-3 outline-none flex items-center">
                                     <i class="las la-plus"></i>
                                     <span class="ml-1 hidden md:inline-block">{{ __( 'Product' ) }}</span>
                                 </button>
                             </div>
-                            <hr class="h-10" style="width: 1px">
+                            <hr class="h-10" style="width: 1px"> -->
                         </div>
                     </div>
                 </div>
