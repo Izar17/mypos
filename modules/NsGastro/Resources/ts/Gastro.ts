@@ -74,6 +74,9 @@ class Gastro {
                                 label: __m( 'Order Options', 'NsGastro' ),
                                 description: __m( 'Select an option to apply to this order.', 'NsGastro' ),
                                 options: [{
+                                    label: __m( 'Move Table', 'NsGastro' ),
+                                    value: 'move',
+                                }, {
                                     label: __m( 'Split Order', 'NsGastro' ),
                                     value: 'split',
                                 }, {

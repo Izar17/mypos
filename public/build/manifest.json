@@ -687,7 +687,7 @@
     ]
   },
   "resources/ts/pages/dashboard/pos/header-buttons/ns-pos-pending-orders-button.vue": {
-    "file": "assets/ns-pos-pending-orders-button-yf8s-lpm.js",
+    "file": "assets/ns-pos-pending-orders-button-CGpfaj6w.js",
     "name": "ns-pos-pending-orders-button",
     "src": "resources/ts/pages/dashboard/pos/header-buttons/ns-pos-pending-orders-button.vue",
     "isDynamicEntry": true,
@@ -1220,7 +1220,7 @@
     ]
   },
   "resources/ts/pos-init.ts": {
-    "file": "assets/pos-init-CGtmDIAm.js",
+    "file": "assets/pos-init-CxW6-uR1.js",
     "name": "pos-init",
     "src": "resources/ts/pos-init.ts",
     "isEntry": true,
