@@ -92,7 +92,7 @@ export class POS {
             discount_manager: '', // LCABORNAY
             discount_code: '', // LCABORNAY
             number_pax: 0, // LCABORNAY
-            number_pax_disc: 0, // LCABORNAY
+            number_pax_discount: 0, // LCABORNAY
             subtotal: 0,
             total: 0,
             coupons: [],
@@ -1397,20 +1397,20 @@ console.log('product vatable SC', productScVatable);
         if (totalValue.length > 0) {
             order.total_coupons = totalValue.reduce((before, after) => before + after);
         }
-
+        // if(order.id == undefined){
         if (order.discount_type === 'percentage') {
             //LCABORNAY
             if( order.discount_code === "SC" || order.discount_code === "PWD"){
-                if(order.number_pax >= 1){
-                    order.vat_exempt_sales = (((order.subtotal-order.sc_vatable) / order.number_pax)*order.number_pax_disc)/1.12,
-                    //   ((order.vat_exempt_sales / order.number_pax) / 1.12) +  ((order.vat_exempt / order.number_pax) / 1.12)),
-                order.vat_exempt = order.vat_exempt_sales*.12,
-                order.discount = (order.discount_percentage * order.vat_exempt_sales)/100
+                if(order.vat_exempt_sales > 0 && order.number_pax > 0 ){
+                    order.vat_exempt_sales = (((order.subtotal-order.sc_vatable) / order.number_pax) * order.number_pax_discount) / 1.12;
+                    //   ((order.vat_exempt_sales / order.number_pax) / 1.12) +  ((order.vat_exempt / order.number_pax) / 1.12));
+                    order.vat_exempt = order.vat_exempt_sales * 0.12;
+                    order.discount = (order.discount_percentage * order.vat_exempt_sales) / 100;
                 }
                 else{
-                    if(order.vat_exempt_sales > 0 && order.number_pax > 0 ){
-                        order.vat_exempt_sales = (order.vat_exempt_sales / order.number_pax) * order.number_pax_disc
-                    }
+                    // if(order.vat_exempt_sales > 0 && order.number_pax > 0 ){
+                    //     order.vat_exempt_sales = (order.vat_exempt_sales / order.number_pax) * order.number_pax_discount
+                    // }
                     order.discount = (order.discount_percentage * order.vat_exempt_sales) / 100;
                 }
 
@@ -1418,9 +1418,20 @@ console.log('product vatable SC', productScVatable);
                 order.discount = (order.discount_percentage * order.subtotal) / 100;
             }
         }
+    // } 
+        console.log("ORDER ID", order.id)
+        console.log("-------------------------")
+        console.log("order.subtotal ", order.subtotal)
+        console.log("order.sc_vatable ", order.sc_vatable)
+        console.log("order.number_pax ", order.number_pax)
+        console.log("order.number_pax_discount ", order.number_pax_discount)
         console.log("order vat exempt sales", order.vat_exempt_sales)
+        console.log("order.discount_percentage", order.discount_percentage)
+        console.log("Regular with Senior Discount: ", order.discount);
+        console.log("-------------------------")
+
         console.log("order vat exempt ", order.vat_exempt)
-        console.log("order sc vatable ", order.sc_vatable)
+
         /**
          * if the discount amount is greather
          * than the subtotal, the discount amount
@@ -1495,7 +1506,7 @@ console.log('product vatable SC', productScVatable);
         }
         else if( order.discount_code === "SC" || order.discount_code === "PWD"){
             if(order.number_pax >=1){
-                order.service_charge = (((order.vat_exempt_sales * 0.1) + (((order.subtotal - order.sc_vatable)/order.number_pax)*(order.number_pax-order.number_pax_disc)) * 0.1) + (order.sc_vatable *.1))
+                order.service_charge = (((order.vat_exempt_sales * 0.1) + (((order.subtotal - order.sc_vatable)/order.number_pax)*(order.number_pax-order.number_pax_discount)) * 0.1) + (order.sc_vatable *.1))
             }
             else{
                 order.service_charge =  ( order.vat_exempt_sales  + order.sc_vatable ) * 0.10;

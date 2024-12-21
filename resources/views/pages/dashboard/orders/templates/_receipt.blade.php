@@ -32,15 +32,19 @@ use Illuminate\Support\Facades\View;
                     </tr>
                 </thead>
                 <tbody class="text-xs">
+                @php $totalQuantity = 0; @endphp
                     @foreach( Hook::filter( 'ns-receipt-products', $order->combinedProducts ) as $product )
+                    @php $totalQuantity += $product->quantity; @endphp
                     <tr>
                         <td colspan="2" class="p-0 ">
                             <?php $productName  =   View::make( 'pages.dashboard.orders.templates._product-name', compact( 'product' ) );?>
                             <?php echo Hook::filter( 'ns-receipt-product-name', $productName->render(), $product );?>
                         </td>
-                        <td class="p-0 text-right">{{ ns()->currency->define( $product->total_price) }}</td>
+                        <td class="p-0 text-right">
+                            {{ ns()->currency->define( $product->total_price) }}</td>
                     </tr>
                     @endforeach
+                    <tr><td colspan="3" style="text-align:left; font-size:16;"><hr>Qty:{{ $totalQuantity }}</td></tr>
                 </tbody>
                 <tbody>
                     <tr>

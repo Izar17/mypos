@@ -686,91 +686,76 @@ class ReportService
         }
     }
 //lcabornay
-    public function getXzReadingReport( string $pstart,  $user_id = null )
+    public function getXzReadingReport(string $pstart, $user_id = null)
     {
-        // dd($start);
         $start = Carbon::parse($pstart)->format("Y-m-d 00:00:00");
         $end = Carbon::parse($pstart)->format("Y-m-d 24:00:00");
-        // dd($start);
+
         $orders = Order::selectRaw(
-            "nexopos_registers.name AS terminal, 
-            sum(nexopos_orders.subtotal) AS total_sales ,
+            "sum(nexopos_orders.subtotal) AS total_sales,
             count(nexopos_orders.subtotal) AS total_sales_count,
             0 total_refunds,
             0 total_refunds_count,
-            sum(nexopos_orders.discount) total_disc, 
-            count(CASE WHEN nexopos_orders.discount > 0 THEN nexopos_orders.discount END ) total_disc_count,
+            sum(nexopos_orders.discount) total_disc,
+            count(CASE WHEN nexopos_orders.discount > 0 THEN nexopos_orders.discount END) total_disc_count,
             sum(nexopos_orders.subtotal - nexopos_orders.discount) subtotal,
-            sum(nexopos_orders.service_charge) service_charge ,
-            COALESCE (sum(CASE WHEN vat_exempt > 0  THEN nexopos_orders.vat_exempt END), 0) vat_exempt,
-            COALESCE (sum(CASE WHEN vat_exempt > 0  THEN nexopos_orders.vat_exempt_sales END), 0) vat_exempt_sales,
-            COALESCE (sum(CASE WHEN vat_exempt > 0  THEN nexopos_orders.sc_vatable END), 0) sc_vatable,
-            COALESCE (sum(CASE WHEN vat_exempt = 0  THEN nexopos_orders.subtotal END), 0) vatable,
-            SUM(nexopos_orders.total) AS total, 
-            count(CASE WHEN nexopos_orders.\"type\" = 'takeaway' THEN nexopos_orders.\"type\" END )AS takeaway_count,
-            count(CASE WHEN nexopos_orders.\"type\" = 'dine-in' THEN nexopos_orders.\"type\" END )AS dinein_count,
-            sum(CASE WHEN nexopos_orders.\"type\" = 'takeaway' THEN nexopos_orders.total END )AS takeaway_total,
-            sum(CASE WHEN nexopos_orders.\"type\" = 'dine-in' THEN nexopos_orders.total END )AS dinein_total,
-            sum(CASE WHEN nexopos_orders.discount_code ='SC' THEN nexopos_orders.discount ELSE 0 END ) sc_total_disc,
-            count(CASE WHEN nexopos_orders.discount_code ='SC' THEN nexopos_orders.discount END ) sc_count_disc,
-            sum(CASE WHEN nexopos_orders.discount_code ='PWD' THEN nexopos_orders.discount ELSE 0 END ) pwd_total_disc,
-            count(CASE WHEN nexopos_orders.discount_code ='PWD' THEN nexopos_orders.discount END ) pwd_count_disc,
-            sum(CASE WHEN nexopos_orders.discount_code ='EMP' THEN nexopos_orders.discount ELSE 0 END ) emp_total_disc,
-            count(CASE WHEN nexopos_orders.discount_code ='EMP' THEN nexopos_orders.discount END ) emp_count_disc,
-            sum(CASE WHEN nexopos_orders.discount_code ='FREE' THEN nexopos_orders.discount ELSE 0 END ) free_total_disc,
-            count(CASE WHEN nexopos_orders.discount_code ='FREE' THEN nexopos_orders.discount END ) free_count_disc,
-            sum(CASE WHEN nexopos_orders.discount_code IS NULL AND nexopos_orders.discount> 0  THEN discount ELSE 0 END ) reg_total_disc,
-            count(CASE WHEN nexopos_orders.discount_code IS NULL  AND nexopos_orders.discount> 0 THEN discount END ) reg_count_disc "
-        )->join('nexopos_registers', 'nexopos_registers.id', '=', 'nexopos_orders.register_id') 
-        ->where( 'nexopos_orders.created_at', '>=', $start )
-        ->where( 'nexopos_orders.created_at', '<=', $end )
-        ->where( 'nexopos_orders.payment_status', Order::PAYMENT_PAID );
-    
-       $payments = PaymentType::selectRaw(" 
-       nexopos_payments_types.label , 
-       count(nexopos_payments_types.label), 
-       sum( CASE WHEN nexopos_orders_payments.change > 0 
-            THEN nexopos_orders_payments.value - nexopos_orders_payments.change 
-            ELSE nexopos_orders_payments.value END 
-       ) AS total")->join("nexopos_orders_payments","nexopos_payments_types.identifier","=" , "nexopos_orders_payments.identifier")
-        ->join("nexopos_orders", "nexopos_orders.id", "=", "nexopos_orders_payments.order_id")
-        ->where( 'nexopos_orders.created_at', '>=', $start )
-        ->where( 'nexopos_orders.created_at', '<=', $end )
-        ->where( 'nexopos_orders.payment_status', Order::PAYMENT_PAID );
-       
+            sum(nexopos_orders.service_charge) service_charge,
+            COALESCE(sum(CASE WHEN vat_exempt > 0 THEN nexopos_orders.vat_exempt END), 0) vat_exempt,
+            COALESCE(sum(CASE WHEN vat_exempt > 0 THEN nexopos_orders.vat_exempt_sales END), 0) vat_exempt_sales,
+            COALESCE(sum(CASE WHEN vat_exempt > 0 THEN nexopos_orders.sc_vatable END), 0) sc_vatable,
+            COALESCE(sum(CASE WHEN vat_exempt = 0 THEN nexopos_orders.subtotal END), 0) vatable,
+            SUM(nexopos_orders.total) AS total,
+            count(CASE WHEN nexopos_orders.\"type\" = 'takeaway' THEN nexopos_orders.\"type\" END) AS takeaway_count,
+            count(CASE WHEN nexopos_orders.\"type\" = 'dine-in' THEN nexopos_orders.\"type\" END) AS dinein_count,
+            sum(CASE WHEN nexopos_orders.\"type\" = 'takeaway' THEN nexopos_orders.total END) AS takeaway_total,
+            sum(CASE WHEN nexopos_orders.\"type\" = 'dine-in' THEN nexopos_orders.total END) AS dinein_total,
+            sum(CASE WHEN nexopos_orders.discount_code = 'SC' THEN nexopos_orders.discount ELSE 0 END) sc_total_disc,
+            count(CASE WHEN nexopos_orders.discount_code = 'SC' THEN nexopos_orders.discount END) sc_count_disc,
+            sum(CASE WHEN nexopos_orders.discount_code = 'PWD' THEN nexopos_orders.discount ELSE 0 END) pwd_total_disc,
+            count(CASE WHEN nexopos_orders.discount_code = 'PWD' THEN nexopos_orders.discount END) pwd_count_disc,
+            sum(CASE WHEN nexopos_orders.discount_code = 'EMP' THEN nexopos_orders.discount ELSE 0 END) emp_total_disc,
+            count(CASE WHEN nexopos_orders.discount_code = 'EMP' THEN nexopos_orders.discount END) emp_count_disc,
+            sum(CASE WHEN nexopos_orders.discount_code = 'FREE' THEN nexopos_orders.discount ELSE 0 END) free_total_disc,
+            count(CASE WHEN nexopos_orders.discount_code = 'FREE' THEN nexopos_orders.discount END) free_count_disc,
+            sum(CASE WHEN nexopos_orders.discount_code IS NULL AND nexopos_orders.discount > 0 THEN discount ELSE 0 END) reg_total_disc,
+            count(CASE WHEN nexopos_orders.discount_code IS NULL AND nexopos_orders.discount > 0 THEN discount END) reg_count_disc"
+        )->join('nexopos_registers', 'nexopos_registers.id', '=', 'nexopos_orders.register_id')
+            ->where('nexopos_orders.created_at', '>=', $start)
+            ->where('nexopos_orders.created_at', '<=', $end)
+            ->where('nexopos_orders.payment_status', Order::PAYMENT_PAID);
 
-     
+        $payments = PaymentType::selectRaw(
+            "nexopos_payments_types.label,
+            count(nexopos_payments_types.label),
+            sum(CASE WHEN nexopos_orders_payments.change > 0
+                THEN nexopos_orders_payments.value - nexopos_orders_payments.change
+                ELSE nexopos_orders_payments.value END) AS total"
+        )->join("nexopos_orders_payments", "nexopos_payments_types.identifier", "=", "nexopos_orders_payments.identifier")
+            ->join("nexopos_orders", "nexopos_orders.id", "=", "nexopos_orders_payments.order_id")
+            ->where('nexopos_orders.created_at', '>=', $start)
+            ->where('nexopos_orders.created_at', '<=', $end)
+            ->where('nexopos_orders.payment_status', Order::PAYMENT_PAID);
 
- 
-        //  dd($storeName);
-        if ( ! empty( $user_id ) ) {
-            $orders = $orders->where( 'nexopos_orders.author', $user_id );
-            $payments=$payments->where( 'nexopos_orders.author', $user_id );
+        if (!empty($user_id)) {
+            $orders = $orders->where('nexopos_orders.author', $user_id);
+            $payments = $payments->where('nexopos_orders.author', $user_id);
             $cashier = User::find($user_id);
-            
         }
-        $orders= $orders->groupBy('nexopos_registers.name')
-        ->first(); 
 
-        $payments=$payments->groupBy("nexopos_payments_types.label")
-        ->get()->toArray();
+        $orders = $orders->first();
+        $payments = $payments->groupBy("nexopos_payments_types.label")->get()->toArray();
 
-        //  dd($payments);
-
-
-
-
-        return  ['result' => [
-            'store_name' => ns()->option->get('ns_store_name'), 
+        return ['result' => [
+            'store_name' => ns()->option->get('ns_store_name'),
             'date' => Carbon::parse($start)->format("Y-m-d"),
             'title' => $user_id ? 'X Reading Report' : 'Z Reading Report',
-            'cashier' => $user_id ? "{$cashier->first_name} {$cashier->last_name}": '',
+            'cashier' => $user_id ? "{$cashier->first_name} {$cashier->last_name}" : '',
             'orders' => $orders,
             'payments' => $payments,
             'generated_date' => Carbon::now()->format("Y/m/d H:m:i")
-
-         ] ];
+        ]];
     }
+
 
     private function getSalesSummary( $orders )
     {

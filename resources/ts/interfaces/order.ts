@@ -12,7 +12,7 @@ export interface Order {
     discount_manager: string | undefined; // LCABORNAY
     discount_code: string | undefined; // LCABORNAY
     number_pax: number, // LCABORNAY
-    number_pax_disc: number, // LCABORNAY
+    number_pax_discount: number, // LCABORNAY
     service_charge: number, // LCABORNAY
     vat_exempt: number, // LCABORNAY
     vat_exempt_sales: number, // LCABORNAY
