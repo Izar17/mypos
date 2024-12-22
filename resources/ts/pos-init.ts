@@ -1397,20 +1397,16 @@ console.log('product vatable SC', productScVatable);
         if (totalValue.length > 0) {
             order.total_coupons = totalValue.reduce((before, after) => before + after);
         }
-        // if(order.id == undefined){
+        
         if (order.discount_type === 'percentage') {
-            //LCABORNAY
+            
             if( order.discount_code === "SC" || order.discount_code === "PWD"){
                 if(order.vat_exempt_sales > 0 && order.number_pax > 0 ){
                     order.vat_exempt_sales = (((order.subtotal-order.sc_vatable) / order.number_pax) * order.number_pax_discount) / 1.12;
-                    //   ((order.vat_exempt_sales / order.number_pax) / 1.12) +  ((order.vat_exempt / order.number_pax) / 1.12));
                     order.vat_exempt = order.vat_exempt_sales * 0.12;
                     order.discount = (order.discount_percentage * order.vat_exempt_sales) / 100;
                 }
                 else{
-                    // if(order.vat_exempt_sales > 0 && order.number_pax > 0 ){
-                    //     order.vat_exempt_sales = (order.vat_exempt_sales / order.number_pax) * order.number_pax_discount
-                    // }
                     order.discount = (order.discount_percentage * order.vat_exempt_sales) / 100;
                 }
 
@@ -1418,7 +1414,7 @@ console.log('product vatable SC', productScVatable);
                 order.discount = (order.discount_percentage * order.subtotal) / 100;
             }
         }
-    // } 
+        
         console.log("ORDER ID", order.id)
         console.log("-------------------------")
         console.log("order.subtotal ", order.subtotal)

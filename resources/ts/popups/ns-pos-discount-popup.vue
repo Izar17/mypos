@@ -154,7 +154,7 @@ export default {
                             discount_manager    : response.username,
                             discount_code : this.discountCode,
                             number_pax : this.numPax,
-                            number_pax_disc: this.numPaxDisc
+                            number_pax_discount: this.numPaxDisc
                         });
                         this.popup.close();
                     }

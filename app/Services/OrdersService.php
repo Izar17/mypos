@@ -1553,7 +1553,7 @@ class OrdersService
         $order->sc_vatable =  $fields['sc_vatable'] ?? 0 ; // LCABORNAY
         $order->discount_code =  $fields['discount_code'] ?? null ; // LCABORNAY
         $order->number_pax =  $fields['number_pax'] ?? 0 ; // LCABORNAY
-        $order->number_pax_discount =  $fields['number_pax_disc'] ?? 0 ; // LCABORNAY
+        $order->number_pax_discount =  $fields['number_pax_discount'] ?? 0 ; // LCABORNAY
         $order->total = $this->currencyService->define( $fields[ 'total' ] ?? 0 )->toFloat() ?: $this->computeTotal( $fields, $order );
         $order->type = $fields['type']['identifier'];
         $order->final_payment_date = isset( $fields['final_payment_date' ] ) ? Carbon::parse( $fields['final_payment_date' ] )->format( 'Y-m-d h:m:s' ) : null; // when the order is not saved as laid away
@@ -2517,7 +2517,7 @@ class OrdersService
             'store_name' => ns()->option->get( 'ns_store_name' ),
             'store_email' => ns()->option->get( 'ns_store_email' ),
             'store_phone' => ns()->option->get( 'ns_store_phone' ),
-            'cashier_name' => $order->user->username,
+            'cashier_name' => $order->author,
             'cashier_id' => $order->author,
             'order_code' => $order->code,
             'order_type' => $this->getTypeLabel( $order->type ),
