@@ -175,7 +175,7 @@ class OrdersService
 
         /**
          * if the order has a valid payment
-         * method, then we can save that and attach it the ongoing order.
+         * method, then we can save that and attach it the ongoing order.pay
          */
         if ( in_array( $paymentStatus, [
             Order::PAYMENT_PAID,

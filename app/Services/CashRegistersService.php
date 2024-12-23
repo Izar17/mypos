@@ -26,6 +26,11 @@ class CashRegistersService
         $register->used_by = Auth::id();
         $register->save();
 
+        $order = new Order;
+        // Update the author in the order table with the current user's ID 
+        $order->where('payment_status', 'hold')->update(['author' => Auth::id()]);
+
+
         $registerHistory = new RegisterHistory;
         $registerHistory->register_id = $register->id;
         $registerHistory->action = RegisterHistory::ACTION_OPENING;
