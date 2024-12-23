@@ -991,16 +991,15 @@ class OrdersService
             }
         }
 
-        if ( $totalPayments >= $total && count( $fields[ 'payments' ] ?? [] ) > 0 || $totalPayments < $total && $totalPayments > 0) {
+        if ( $totalPayments >= $total && count( $fields[ 'payments' ] ?? [] ) > 0 ) {
             $paymentStatus = Order::PAYMENT_PAID;
-        // } elseif ( $totalPayments < $total && $totalPayments > 0 ) {
-        //     $paymentStatus = Order::PAYMENT_PARTIALLY;
+        } elseif ( $totalPayments < $total && $totalPayments > 0 ) {
+            $paymentStatus = Order::PAYMENT_PARTIALLY;
         } elseif ( $totalPayments === 0 && ( ! isset( $fields[ 'payment_status' ] ) || ( $fields[ 'payment_status' ] !== Order::PAYMENT_HOLD ) ) ) {
             $paymentStatus = Order::PAYMENT_UNPAID;
         } elseif ( $totalPayments === 0 && ( isset( $fields[ 'payment_status' ] ) && ( $fields[ 'payment_status' ] === Order::PAYMENT_HOLD ) ) ) {
             $paymentStatus = Order::PAYMENT_HOLD;
         }
-
 
         /**
          * Ultimately, we'll check when a payment is provided
@@ -1554,7 +1553,7 @@ class OrdersService
         $order->sc_vatable =  $fields['sc_vatable'] ?? 0 ; // LCABORNAY
         $order->discount_code =  $fields['discount_code'] ?? null ; // LCABORNAY
         $order->number_pax =  $fields['number_pax'] ?? 0 ; // LCABORNAY
-        $order->number_pax_discount =  $fields['number_pax_discount'] ?? 0 ; // LCABORNAY
+        $order->number_pax_discount =  $fields['number_pax_disc'] ?? 0 ; // LCABORNAY
         $order->total = $this->currencyService->define( $fields[ 'total' ] ?? 0 )->toFloat() ?: $this->computeTotal( $fields, $order );
         $order->type = $fields['type']['identifier'];
         $order->final_payment_date = isset( $fields['final_payment_date' ] ) ? Carbon::parse( $fields['final_payment_date' ] )->format( 'Y-m-d h:m:s' ) : null; // when the order is not saved as laid away
@@ -2574,11 +2573,11 @@ class OrdersService
              * if some orders has received a payment.
              */
             $orders->each( function ( $order ) {
-                // if ( $order->paid > 0 ) {
-                //     $order->payment_status = Order::PAYMENT_PARTIALLY_DUE;
-                // } else {
-                //     $order->payment_status = Order::PAYMENT_DUE;
-                // }
+                if ( $order->paid > 0 ) {
+                    $order->payment_status = Order::PAYMENT_PARTIALLY_DUE;
+                } else {
+                    $order->payment_status = Order::PAYMENT_DUE;
+                }
 
                 $order->save();
             } );

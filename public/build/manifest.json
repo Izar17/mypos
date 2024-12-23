@@ -1,28 +1,4 @@
 {
-  "92zUtBhPNqw73oHt4D4h.woff2": {
-    "file": "assets/92zUtBhPNqw73oHt4D4h-CgntkySV.woff2",
-    "src": "92zUtBhPNqw73oHt4D4h.woff2"
-  },
-  "92zUtBhPNqw73oHt5D4hTxM.woff2": {
-    "file": "assets/92zUtBhPNqw73oHt5D4hTxM-lS-xFuVv.woff2",
-    "src": "92zUtBhPNqw73oHt5D4hTxM.woff2"
-  },
-  "92zUtBhPNqw73oHt7j4hTxM.woff2": {
-    "file": "assets/92zUtBhPNqw73oHt7j4hTxM-C-TfKmp4.woff2",
-    "src": "92zUtBhPNqw73oHt7j4hTxM.woff2"
-  },
-  "92zatBhPNqw73oDd4iYl.woff2": {
-    "file": "assets/92zatBhPNqw73oDd4iYl-D5gl4VXS.woff2",
-    "src": "92zatBhPNqw73oDd4iYl.woff2"
-  },
-  "92zatBhPNqw73oTd4g.woff2": {
-    "file": "assets/92zatBhPNqw73oTd4g-DUShLcwS.woff2",
-    "src": "92zatBhPNqw73oTd4g.woff2"
-  },
-  "92zatBhPNqw73ord4iYl.woff2": {
-    "file": "assets/92zatBhPNqw73ord4iYl-m_Q7yMDg.woff2",
-    "src": "92zatBhPNqw73ord4iYl.woff2"
-  },
   "__plugin-vue_export-helper-DlAUqK2U.js": {
     "file": "assets/_plugin-vue_export-helper-DlAUqK2U.js",
     "name": "_plugin-vue_export-helper"
@@ -138,19 +114,6 @@
       "_ns-orders-preview-popup-Bw2xNLgu.js"
     ]
   },
-  "_product-quantity-BsZy4bif.js": {
-    "file": "assets/product-quantity-BsZy4bif.js",
-    "name": "product-quantity",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/ts/bootstrap.ts",
-      "__plugin-vue_export-helper-DlAUqK2U.js",
-      "_runtime-core.esm-bundler-fVX7Ok1h.js",
-      "_currency-Dtag6qPd.js",
-      "_ns-prompt-popup-ncfXAYOx.js",
-      "_ns-orders-preview-popup-Bw2xNLgu.js"
-    ]
-  },
   "_runtime-core.esm-bundler-fVX7Ok1h.js": {
     "file": "assets/runtime-core.esm-bundler-fVX7Ok1h.js",
     "name": "runtime-core.esm-bundler"
@@ -177,66 +140,6 @@
     "imports": [
       "_runtime-core.esm-bundler-fVX7Ok1h.js"
     ]
-  },
-  "la-brands-400.eot": {
-    "file": "assets/la-brands-400-LN4CMlGg.eot",
-    "src": "la-brands-400.eot"
-  },
-  "la-brands-400.svg": {
-    "file": "assets/la-brands-400-wsUI3UJ9.svg",
-    "src": "la-brands-400.svg"
-  },
-  "la-brands-400.ttf": {
-    "file": "assets/la-brands-400-gDglUfU7.ttf",
-    "src": "la-brands-400.ttf"
-  },
-  "la-brands-400.woff": {
-    "file": "assets/la-brands-400-D0lxOIwB.woff",
-    "src": "la-brands-400.woff"
-  },
-  "la-brands-400.woff2": {
-    "file": "assets/la-brands-400-Cq-R4OEF.woff2",
-    "src": "la-brands-400.woff2"
-  },
-  "la-regular-400.eot": {
-    "file": "assets/la-regular-400-Cx6vm3uW.eot",
-    "src": "la-regular-400.eot"
-  },
-  "la-regular-400.svg": {
-    "file": "assets/la-regular-400-BmVb34ql.svg",
-    "src": "la-regular-400.svg"
-  },
-  "la-regular-400.ttf": {
-    "file": "assets/la-regular-400-CmnW_RTo.ttf",
-    "src": "la-regular-400.ttf"
-  },
-  "la-regular-400.woff": {
-    "file": "assets/la-regular-400-ehe5HgcS.woff",
-    "src": "la-regular-400.woff"
-  },
-  "la-regular-400.woff2": {
-    "file": "assets/la-regular-400-DuFMN_sw.woff2",
-    "src": "la-regular-400.woff2"
-  },
-  "la-solid-900.eot": {
-    "file": "assets/la-solid-900-DkmX4G2x.eot",
-    "src": "la-solid-900.eot"
-  },
-  "la-solid-900.svg": {
-    "file": "assets/la-solid-900-dtlPMWb8.svg",
-    "src": "la-solid-900.svg"
-  },
-  "la-solid-900.ttf": {
-    "file": "assets/la-solid-900-BUOWlSBQ.ttf",
-    "src": "la-solid-900.ttf"
-  },
-  "la-solid-900.woff": {
-    "file": "assets/la-solid-900-CR_Kd-su.woff",
-    "src": "la-solid-900.woff"
-  },
-  "la-solid-900.woff2": {
-    "file": "assets/la-solid-900-TjMEgv3Q.woff2",
-    "src": "la-solid-900.woff2"
   },
   "resources/fonts/92zUtBhPNqw73oHt4D4h.woff2": {
     "file": "assets/92zUtBhPNqw73oHt4D4h-CgntkySV.woff2",
