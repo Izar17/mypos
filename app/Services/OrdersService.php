@@ -990,16 +990,16 @@ class OrdersService
                 ) );
             }
         }
-
+         
         if ( $totalPayments >= $total && count( $fields[ 'payments' ] ?? [] ) > 0 || $totalPayments < $total && $totalPayments > 0) {
             $paymentStatus = Order::PAYMENT_PAID;
         // } elseif ( $totalPayments < $total && $totalPayments > 0 ) {
         //     $paymentStatus = Order::PAYMENT_PARTIALLY;
-        } elseif ( $totalPayments === 0 && ( ! isset( $fields[ 'payment_status' ] ) || ( $fields[ 'payment_status' ] !== Order::PAYMENT_HOLD ) ) ) {
+        } elseif ($totalPayments === 0 && ( ! isset( $fields[ 'payment_status' ] ) || ( $fields[ 'payment_status' ] !== Order::PAYMENT_HOLD ) ) ) {
             $paymentStatus = Order::PAYMENT_UNPAID;
         } elseif ( $totalPayments === 0 && ( isset( $fields[ 'payment_status' ] ) && ( $fields[ 'payment_status' ] === Order::PAYMENT_HOLD ) ) ) {
             $paymentStatus = Order::PAYMENT_HOLD;
-        }
+        } 
 
 
         /**
