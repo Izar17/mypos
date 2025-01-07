@@ -2573,11 +2573,11 @@ class OrdersService
              * if some orders has received a payment.
              */
             $orders->each( function ( $order ) {
-                if ( $order->paid > 0 ) {
-                    $order->payment_status = Order::PAYMENT_PARTIALLY_DUE;
-                } else {
+                // if ( $order->paid > 0 ) {
+                //     $order->payment_status = Order::PAYMENT_PARTIALLY_DUE;
+                // } else {
                     $order->payment_status = Order::PAYMENT_DUE;
-                }
+                // }
 
                 $order->save();
             } );

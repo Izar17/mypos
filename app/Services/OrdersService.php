@@ -2566,7 +2566,7 @@ class OrdersService
      */
     public function notifyExpiredLaidAway()
     {
-        $orders = Order::paymentExpired()->get();
+        $orders = Order::get();
 
         if ( ! $orders->isEmpty() ) {
             /**
@@ -2577,7 +2577,7 @@ class OrdersService
                 // if ( $order->paid > 0 ) {
                 //     $order->payment_status = Order::PAYMENT_PARTIALLY_DUE;
                 // } else {
-                //     $order->payment_status = Order::PAYMENT_DUE;
+                     $order->payment_status = Order::PAYMENT_DUE;
                 // }
 
                 $order->save();
