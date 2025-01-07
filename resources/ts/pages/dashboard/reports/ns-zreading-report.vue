@@ -23,7 +23,7 @@
                     class="rounded flex justify-between bg-input-button shadow py-1 items-center text-primary px-2">
                     <i class="las la-print text-xl"></i>
                     <span class="pl-2">{{ __("Print") }}</span>
-                </button>test
+                </button>
             </div>
         </div>
         <div>
