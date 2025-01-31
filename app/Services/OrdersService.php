@@ -781,8 +781,13 @@ class OrdersService
         foreach ( $payments as $payment ) {
             $this->__saveOrderSinglePayment( $payment, $order );
         }
-
-        $order->tendered = $this->currencyService->define( collect( $payments )->map( fn( $payment ) => floatval( $payment[ 'value' ] ) )->sum() )->toFloat();
+        $orderTendered = $this->currencyService->define( collect( $payments )->map( fn( $payment ) => floatval( $payment[ 'value' ] ) )->sum() )->toFloat();
+        
+        if($orderTendered < 1){
+            $order->tendered = 0;
+        }else{
+            $order->tendered = $orderTendered;
+        }
     }
 
     /**
@@ -991,13 +996,13 @@ class OrdersService
             }
         }
          
-        if ( $totalPayments >= $total && count( $fields[ 'payments' ] ?? [] ) > 0 || $totalPayments < $total && $totalPayments > 0) {
+        if ( $totalPayments >= $total && count( $fields[ 'payments' ] ?? [] ) > 0 || $totalPayments < $total && $totalPayments > 0 || $fields[ 'discount_percentage' ] === 100) {
             $paymentStatus = Order::PAYMENT_PAID;
         // } elseif ( $totalPayments < $total && $totalPayments > 0 ) {
         //     $paymentStatus = Order::PAYMENT_PARTIALLY;
         } elseif ($totalPayments === 0 && ( ! isset( $fields[ 'payment_status' ] ) || ( $fields[ 'payment_status' ] !== Order::PAYMENT_HOLD ) ) ) {
             $paymentStatus = Order::PAYMENT_UNPAID;
-        } elseif ( $totalPayments === 0 && ( isset( $fields[ 'payment_status' ] ) && ( $fields[ 'payment_status' ] === Order::PAYMENT_HOLD ) ) ) {
+        } elseif ( $totalPayments === 0 && $fields[ 'discount_percentage' ] !== 100 && ( isset( $fields[ 'payment_status' ] ) && ( $fields[ 'payment_status' ] === Order::PAYMENT_HOLD ) ) ) {
             $paymentStatus = Order::PAYMENT_HOLD;
         } 
 
@@ -2155,7 +2160,13 @@ class OrdersService
         $this->computeOrderTaxes( $order );
 
         $orderShipping = $order->shipping;
-        $totalPayments = $order->payments->map( fn( $payment ) => $payment->value )->sum();
+
+        $totalPay = $order->payments->map( fn( $payment ) => $payment->value )->sum();
+        if($totalPay < 1){
+            $totalPayments = 0;
+        }else{
+            $totalPayments = $totalPay;
+        } 
         $order->tendered = $totalPayments;
 
         /**
@@ -2566,7 +2577,7 @@ class OrdersService
      */
     public function notifyExpiredLaidAway()
     {
-        $orders = Order::get();
+        $orders = Order::paymentExpired()->get();
 
         if ( ! $orders->isEmpty() ) {
             /**
@@ -2577,7 +2588,7 @@ class OrdersService
                 // if ( $order->paid > 0 ) {
                 //     $order->payment_status = Order::PAYMENT_PARTIALLY_DUE;
                 // } else {
-                     $order->payment_status = Order::PAYMENT_HOLD;
+                //     $order->payment_status = Order::PAYMENT_DUE;
                 // }
 
                 $order->save();
