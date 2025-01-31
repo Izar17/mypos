@@ -16,6 +16,7 @@ use Modules\NsGastro\Models\Order as ModelsOrder;
 use Modules\NsGastro\Models\OrderProduct;
 use Modules\NsGastro\Models\Table;
 use Modules\NsGastro\Models\TableSession;
+use Illuminate\Support\Facades\DB;
 
 class TableService
 {
@@ -170,67 +171,73 @@ class TableService
      * @param  int  $table_id new destination table
      * @return array result
      */
-    public function changeTable(Order $order, $table_id)
-    {
-        $prevOrder  =   clone $order;
 
-        if ($order->table_id === $table_id) {
-            throw new NotAllowedException(__m('The order is already assigned to this table.', 'NsGastro'));
-        }
-
-        $previousTable  =   Table::find( $order->table_id );
-        $table = Table::find($table_id);
-
-        if (! $table instanceof Table) {
-            throw new NotFoundException(__m('Unable to find the destination table.', 'NsGastro'));
-        }
-
-        /**
-         * let's verify if the table has an order and
-         * if that order customer match the new customer
-         * in case we've disabled multiple customer per table
-         */
-        if (! (bool) $table->allow_multi_clients) {
-            $session = $this->getActiveTableSession($table);
-
-            if ($session instanceof TableSession) {
-                $session->orders->each(function ($_order) use ($order) {
-                    if ($_order->customer_id !== $order->customer_id) {
-                        throw new NotAllowedException(__m('This table doesn\'t allow multiple customers', 'NsGastro'));
-                    }
-                });
-            }
-        }
-
-        /**
-         * We'll now check if the destination table has an ongoing session
-         * if not, we'll open a new session for that table
-         */
-        $session = $this->startTableSession($table, true);
-
-        /**
-         * Now let's assign the order to the table
-         * and to the session.
-         */
-        $order->table_id = $table_id;
-        $order->gastro_table_session_id = $session->id;
-        $order->save();
-
-        $this->closeTableSessionIfFreed( $previousTable );
-
-        event( new OrderAfterUpdatedEvent(
-            newOrder: $order,
-            prevOrder: $prevOrder,
-            fields: compact( 'table_id' )
-        ) );
-        
-        GastroOrderAfterMovedEvent::dispatch( $previousTable, $table, $order );
-
-        return [
-            'status'    =>  'success',
-            'message'   =>  sprintf(__m('The order has been successfully moved to %s', 'NsGastro'), $table->name),
-        ];
-    }
+     public function changeTable(Order $order, $table_id)
+     {
+         $prevOrder = clone $order;
+     
+         if ($order->table_id === $table_id) {
+             throw new NotAllowedException(__m('The order is already assigned to this table.', 'NsGastro'));
+         }
+     
+         $previousTable = Table::find($order->table_id);
+         $table = Table::find($table_id);
+     
+         if (! $table instanceof Table) {
+             throw new NotFoundException(__m('Unable to find the destination table.', 'NsGastro'));
+         }
+     
+         // Verify if the table has an order and if that order customer matches the new customer
+         if (! (bool) $table->allow_multi_clients) {
+             $session = $this->getActiveTableSession($table);
+     
+             if ($session instanceof TableSession) {
+                 $session->orders->each(function ($_order) use ($order) {
+                     if ($_order->customer_id !== $order->customer_id) {
+                         throw new NotAllowedException(__m('This table doesn\'t allow multiple customers', 'NsGastro'));
+                     }
+                 });
+             }
+         }
+     
+         // Check if the destination table has an ongoing session, if not, open a new session for that table
+         $session = $this->startTableSession($table, true);
+     
+         // Assign the order to the table and to the session
+         $order->table_id = $table_id;
+         $order->gastro_table_session_id = $session->id;
+         $order->save();
+     
+         // Update the nexopos_orders table
+         DB::table('nexopos_orders')
+             ->where('id', $order->id)
+             ->update([
+                 'table_id' => $table_id,
+                 'table_name' => $table->name
+             ]);
+     
+         // Set the previous table to free
+         $previousTable->status = 'free';
+         $previousTable->save();
+     
+         // Update previous table's status
+         $this->closeTableSessionIfFreed($previousTable);
+     
+         // Trigger events
+         event(new OrderAfterUpdatedEvent(
+             newOrder: $order,
+             prevOrder: $prevOrder,
+             fields: compact('table_id')
+         ));
+         
+         GastroOrderAfterMovedEvent::dispatch($previousTable, $table, $order);
+     
+         return [
+             'status' => 'success',
+             'message' => sprintf(__m('The order has been successfully moved to %s', 'NsGastro'), $table->name),
+         ];
+     }
+     
 
     public function saveTable( $order, $fields )
     {
