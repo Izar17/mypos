@@ -258,4 +258,6 @@ use Illuminate\Support\Facades\View;
         </div>
     </div>
 </div>
-@includeWhen( request()->query( 'autoprint' ) === 'true', '/pages/dashboard/orders/templates/_autoprint' )
+<script>
+    window.print();
+</script>
