@@ -783,7 +783,7 @@ class OrdersService
         }
         $orderTendered = $this->currencyService->define( collect( $payments )->map( fn( $payment ) => floatval( $payment[ 'value' ] ) )->sum() )->toFloat();
         
-        if($orderTendered < 1){
+        if($orderTendered <= 5){
             $order->tendered = 0;
         }else{
             $order->tendered = $orderTendered;
@@ -995,14 +995,22 @@ class OrdersService
                 ) );
             }
         }
-         
-        if ( $totalPayments >= $total && count( $fields[ 'payments' ] ?? [] ) > 0 || $totalPayments < $total && $totalPayments > 0 || $fields[ 'discount_percentage' ] === 100) {
+        
+        if( $totalPayments < $total && $totalPayments > 0 ){
+            $totalPayment = 0;
+        }else{
+            $totalPayment = $totalPayments;
+        }
+
+        if ( $totalPayment >= $total && count( $fields[ 'payments' ] ?? [] ) > 0 ||  $fields[ 'discount_percentage' ] === 100) {
             $paymentStatus = Order::PAYMENT_PAID;
-        // } elseif ( $totalPayments < $total && $totalPayments > 0 ) {
-        //     $paymentStatus = Order::PAYMENT_PARTIALLY;
-        } elseif ($totalPayments === 0 && ( ! isset( $fields[ 'payment_status' ] ) || ( $fields[ 'payment_status' ] !== Order::PAYMENT_HOLD ) ) ) {
+            //  } elseif ( $totalPayments < $total && $totalPayments > 0 ) {
+            //      $paymentStatus = Order::PAYMENT_PARTIALLY;
+        } elseif ( $totalPayment < $total && $totalPayment > 0 ) { //For 0.06 partially paid issue
+            $paymentStatus = Order::PAYMENT_HOLD;
+        } elseif ($totalPayment === 0 && ( ! isset( $fields[ 'payment_status' ] ) || ( $fields[ 'payment_status' ] !== Order::PAYMENT_HOLD ) ) ) {
             $paymentStatus = Order::PAYMENT_UNPAID;
-        } elseif ( $totalPayments === 0 && $fields[ 'discount_percentage' ] !== 100 && ( isset( $fields[ 'payment_status' ] ) && ( $fields[ 'payment_status' ] === Order::PAYMENT_HOLD ) ) ) {
+        } elseif ( $totalPayment === 0 && $fields[ 'discount_percentage' ] !== 100 && ( isset( $fields[ 'payment_status' ] ) && ( $fields[ 'payment_status' ] === Order::PAYMENT_HOLD ) ) ) {
             $paymentStatus = Order::PAYMENT_HOLD;
         } 
 
@@ -2162,7 +2170,7 @@ class OrdersService
         $orderShipping = $order->shipping;
 
         $totalPay = $order->payments->map( fn( $payment ) => $payment->value )->sum();
-        if($totalPay < 1){
+        if($totalPay <= 5){
             $totalPayments = 0;
         }else{
             $totalPayments = $totalPay;
