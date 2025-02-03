@@ -217,7 +217,7 @@ class TableService
              ]);
      
          // Set the previous table to free
-         $previousTable->status = 'available';
+         $previousTable->busy = false;
          $previousTable->save();
      
          // Update previous table's status
