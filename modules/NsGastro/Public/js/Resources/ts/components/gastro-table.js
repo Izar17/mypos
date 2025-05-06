@@ -3,29 +3,6 @@ import gastroPosOrderOptionsVue from './gastro-pos-order-options';
 import gastroPosProductOptionsVue from './gastro-pos-product-options';
 import gastroPosSelectedOrdersVue from './gastro-pos-selected-orders';
 import gastroSeatsVue from './gastro-seats';
-
-declare const ns;
-declare const Gastro;
-declare const nsHooks;
-declare const GastroSettings;
-declare const __m;
-declare const popupCloser;
-declare const popupResolver;
-declare const nsHttpClient;
-declare const nsSnackBar;
-declare const Popup;
-declare const nsConfirmPopup;
-declare const Echo;
-declare const moment;
-declare const POS;
-declare const nsPOSLoadingPopup;
-declare const ProductsQueue;
-declare const CustomerQueue;
-declare const TypeQueue;
-declare const PaymentQueue;
-declare const nsCurrency;
-declare const nsSelectPopup;
-
 export default {
     template: `
     <div class="shadow-full ns-box w-95vw h-95vh md:w-4/5-screen lg:w-4/6-screen md:h-4/5-screen overflow-hidden flex flex-col">
@@ -298,50 +275,44 @@ export default {
         </div>
     </div>
     `,
-    props: [ 'popup' ],
+    props: ['popup'],
     mounted() {
-        if ( this.ns_gastro_areas_enabled ) {
+        if (this.ns_gastro_areas_enabled) {
             this.loadAreas();
-            this.screen   =    'areas';
-        } else {
-            this.loadTables();
-            this.screen   =   'tables';
+            this.screen = 'areas';
         }
-
-        this.mode   =   this.popup.params.mode || 'select';
-
+        else {
+            this.loadTables();
+            this.screen = 'tables';
+        }
+        this.mode = this.popup.params.mode || 'select';
         console.log({ ns });
-        
-        if ( Echo.connector.socket && Echo.connector.socket.connected ) {
+        if (Echo.connector.socket && Echo.connector.socket.connected) {
             this.listenSockets();
-        } else {
-            this.launchIntervalFetches()
-        }     
-
-        Gastro.tableOpenedSubject.next( true );
-        
+        }
+        else {
+            this.launchIntervalFetches();
+        }
+        Gastro.tableOpenedSubject.next(true);
         this.popupCloser();
-
-        this.selectedOrdersSubscription     =   Gastro.selectedOrdersSubject.subscribe( orders => {
-            this.selectedOrders     =   orders;
+        this.selectedOrdersSubscription = Gastro.selectedOrdersSubject.subscribe(orders => {
+            this.selectedOrders = orders;
             this.$forceUpdate();
         });
-
-        nsHooks.addAction( 'ns-pos-payment-destroyed', 'gastro-reset-cart', () => {
-            if( this.isPaying ) {
+        nsHooks.addAction('ns-pos-payment-destroyed', 'gastro-reset-cart', () => {
+            if (this.isPaying) {
                 POS.reset();
-                this.isPaying   =   false;
+                this.isPaying = false;
             }
         });
     },
     beforeUnmount() {
-        Gastro.tableOpenedSubject.next( false );
-        clearTimeout( this.intervalFetches );
+        Gastro.tableOpenedSubject.next(false);
+        clearTimeout(this.intervalFetches);
     },
     data() {
-        const rangeStars        =   ns.date.getMoment().startOf( 'day' ).format();
-        const rangeEnds         =   ns.date.getMoment().endOf( 'day' ).format();
-
+        const rangeStars = ns.date.getMoment().startOf('day').format();
+        const rangeEnds = ns.date.getMoment().endOf('day').format();
         return {
             selectedOrders: [],
             selectedOrdersSubscription: null,
@@ -364,11 +335,11 @@ export default {
             filterMode: '',
             mode: 'select',
             settings: {
-                range_starts:  rangeStars,
+                range_starts: rangeStars,
                 range_ends: rangeEnds,
             },
             ...GastroSettings
-        }
+        };
     },
     computed: {
         order() {
@@ -380,363 +351,336 @@ export default {
         nsCurrency,
         popupCloser,
         popupResolver,
-
-        toggleDetails( order ) {
-            this.showDetails[ order.code ]  =   ! this.showDetails[ order.code ];
+        toggleDetails(order) {
+            this.showDetails[order.code] = !this.showDetails[order.code];
             this.$forceUpdate();
         },
-
         launchIntervalFetches() {
-            this.intervalFetches    =   setInterval( () => {
-                if ( this.screen === 'orders' ) {
-                    this.showTableHistory( this.selectedTable );
+            this.intervalFetches = setInterval(() => {
+                if (this.screen === 'orders') {
+                    this.showTableHistory(this.selectedTable);
                 }
-                if ( this.screen === 'sessions-orders' ) {
-                    this.loadSessionOrders( this.selectedSessions );
+                if (this.screen === 'sessions-orders') {
+                    this.loadSessionOrders(this.selectedSessions);
                 }
-            }, 5000 );
+            }, 5000);
         },
-
         async handleSelectedOrders() {
             try {
-                const popup = await new Promise( ( resolve, reject ) => {
-                    Popup.show( gastroPosSelectedOrdersVue, { resolve, reject })
+                const popup = await new Promise((resolve, reject) => {
+                    Popup.show(gastroPosSelectedOrdersVue, { resolve, reject });
                 });
-
-                console.log( popup );
-            } catch ( error ) {
-                console.error( error );
+                console.log(popup);
+            }
+            catch (error) {
+                console.error(error);
             }
         },
-
         toggleTableSessionHistory() {
-            if ( this.screen !== 'sessions' ) {
-                this.sessions   =   [];
-                nsHttpClient.post( `/api/gastro/tables/${this.selectedTable.id}/sessions`, this.settings )
+            if (this.screen !== 'sessions') {
+                this.sessions = [];
+                nsHttpClient.post(`/api/gastro/tables/${this.selectedTable.id}/sessions`, this.settings)
                     .subscribe({
-                        next: result => {
-                            this.sessions       =   result;
-                            this.screen         =   'sessions';
-                        },
-                        error: ( error ) => {
-                            nsSnackBar.error( this.localization( 'An unexpected error has occured.', 'NsGastro' ) ).subscribe();  
-                        }
-                    })
-            } else {
-                this.screen     =   'orders';
-                this.showTableHistory( this.selectedTable );
-            }
-        },
-
-        loadSessionOrders( session ) {
-            this.screen             =   'sessions-orders';
-            this.selectedSessions   =   session;
-            nsHttpClient.post( `/api/gastro/tables/${this.selectedTable.id}/sessions/${session.id}/orders`, this.settings )
-                .subscribe({
                     next: result => {
-                        this.orders   =   result;
+                        this.sessions = result;
+                        this.screen = 'sessions';
                     },
-                    error: ( error ) => {
-                        nsSnackBar.error( this.localization( 'An unexpected error has occured.', 'NsGastro' ) ).subscribe();  
+                    error: (error) => {
+                        nsSnackBar.error(this.localization('An unexpected error has occured.', 'NsGastro')).subscribe();
                     }
-                })
-        },
-
-        openSession( session ) {
-            Popup.show( nsConfirmPopup, {
-                title: this.localization( 'Confirm Your Action', 'NsGastro' ),
-                message: this.localization( 'Would you like to open this session ?', 'NsGastro' ),
-                onAction: ( action ) => {
-                    if ( action ) {
-                        nsHttpClient.put( `/api/gastro/tables/${this.selectedTable.id}/sessions/${session.id}/action`, { action: 'open' })
-                            .subscribe({
-                                next: result => {
-                                    this.toggleTableSessionHistory();
-                                    nsSnackBar.success( result.message, this.localization( 'Okay', 'NsGastro' ), { duration: 3000 }).subscribe();
-                                }, 
-                                error: ( error ) => {
-                                    nsSnackBar.error( this.localization( 'An unexpected error has occured.', 'NsGastro' ) ).subscribe();  
-                                }
-                            })
-                    }
-                }
-            })
-        },
-
-        closeSession( session ) {
-            Popup.show( nsConfirmPopup, {
-                title: this.localization( 'Confirm Your Action', 'NsGastro' ),
-                message: this.localization( 'Would you like to close this session manually ?', 'NsGastro' ),
-                onAction: ( action ) => {
-                    if ( action ) {
-                        nsHttpClient.put( `/api/gastro/tables/${this.selectedTable.id}/sessions/${session.id}/action`, { action: 'close' })
-                            .subscribe({
-                                next: result => {
-                                    this.toggleTableSessionHistory();
-                                    nsSnackBar.success( result.message, this.localization( 'Okay', 'NsGastro' ), { duration: 3000 }).subscribe();
-                                }, 
-                                error: ( error ) => {
-                                    nsSnackBar.error( this.localization( 'An unexpected error has occured.', 'NsGastro' ) ).subscribe();  
-                                }
-                            })
-                    }
-                }
-            })
-        },
-
-        listenSockets() {
-            Echo.channel( `default-channel` )
-                .listen( 'App\\Events\\OrderAfterCreatedEvent', (e) => {
-                    this.showTableHistory( this.selectedTable );
-                })
-                .listen( 'Modules\\NsGastro\\Events\\TableAfterUpdatedEvent', (e) => {
-                    this.showTableHistory( this.selectedTable );
-                })
-                .listen( 'App\\Events\\OrderAfterUpdatedEvent', (e) => {
-                    this.showTableHistory( this.selectedTable );
                 });
+            }
+            else {
+                this.screen = 'orders';
+                this.showTableHistory(this.selectedTable);
+            }
         },
-
+        loadSessionOrders(session) {
+            this.screen = 'sessions-orders';
+            this.selectedSessions = session;
+            nsHttpClient.post(`/api/gastro/tables/${this.selectedTable.id}/sessions/${session.id}/orders`, this.settings)
+                .subscribe({
+                next: result => {
+                    this.orders = result;
+                },
+                error: (error) => {
+                    nsSnackBar.error(this.localization('An unexpected error has occured.', 'NsGastro')).subscribe();
+                }
+            });
+        },
+        openSession(session) {
+            Popup.show(nsConfirmPopup, {
+                title: this.localization('Confirm Your Action', 'NsGastro'),
+                message: this.localization('Would you like to open this session ?', 'NsGastro'),
+                onAction: (action) => {
+                    if (action) {
+                        nsHttpClient.put(`/api/gastro/tables/${this.selectedTable.id}/sessions/${session.id}/action`, { action: 'open' })
+                            .subscribe({
+                            next: result => {
+                                this.toggleTableSessionHistory();
+                                nsSnackBar.success(result.message, this.localization('Okay', 'NsGastro'), { duration: 3000 }).subscribe();
+                            },
+                            error: (error) => {
+                                nsSnackBar.error(this.localization('An unexpected error has occured.', 'NsGastro')).subscribe();
+                            }
+                        });
+                    }
+                }
+            });
+        },
+        closeSession(session) {
+            Popup.show(nsConfirmPopup, {
+                title: this.localization('Confirm Your Action', 'NsGastro'),
+                message: this.localization('Would you like to close this session manually ?', 'NsGastro'),
+                onAction: (action) => {
+                    if (action) {
+                        nsHttpClient.put(`/api/gastro/tables/${this.selectedTable.id}/sessions/${session.id}/action`, { action: 'close' })
+                            .subscribe({
+                            next: result => {
+                                this.toggleTableSessionHistory();
+                                nsSnackBar.success(result.message, this.localization('Okay', 'NsGastro'), { duration: 3000 }).subscribe();
+                            },
+                            error: (error) => {
+                                nsSnackBar.error(this.localization('An unexpected error has occured.', 'NsGastro')).subscribe();
+                            }
+                        });
+                    }
+                }
+            });
+        },
+        listenSockets() {
+            Echo.channel(`default-channel`)
+                .listen('App\\Events\\OrderAfterCreatedEvent', (e) => {
+                this.showTableHistory(this.selectedTable);
+            })
+                .listen('Modules\\NsGastro\\Events\\TableAfterUpdatedEvent', (e) => {
+                this.showTableHistory(this.selectedTable);
+            })
+                .listen('App\\Events\\OrderAfterUpdatedEvent', (e) => {
+                this.showTableHistory(this.selectedTable);
+            });
+        },
         filterOnlyBusy() {
-            if ( [ '', 'free' ].includes( this.filterMode ) ) {
-                this.filterMode     =   'busy';
-            } else {
-                this.filterMode     =   '';
+            if (['', 'free'].includes(this.filterMode)) {
+                this.filterMode = 'busy';
             }
-
-            this.loadTables( this.selectedArea );
+            else {
+                this.filterMode = '';
+            }
+            this.loadTables(this.selectedArea);
         },
-
         filterOnlyAvailable() {
-            if ( [ '', 'busy' ].includes( this.filterMode ) ) {
-                this.filterMode     =   'free';
-            } else {
-                this.filterMode     =   '';
+            if (['', 'busy'].includes(this.filterMode)) {
+                this.filterMode = 'free';
             }
-
-            this.loadTables( this.selectedArea );
+            else {
+                this.filterMode = '';
+            }
+            this.loadTables(this.selectedArea);
         },
-
-        setRange( range ) {
-            switch( range ) {
+        setRange(range) {
+            switch (range) {
                 case 'today':
-                    this.settings.range_starts  =   moment( ns.date.current ).startOf( 'day' ).format( 'YYYY/MM/DD HH:mm:ss' );
-                    this.settings.range_ends    =   moment( ns.date.current ).endOf( 'day' ).format( 'YYYY/MM/DD HH:mm:ss' );
-                break;
+                    this.settings.range_starts = moment(ns.date.current).startOf('day').format('YYYY/MM/DD HH:mm:ss');
+                    this.settings.range_ends = moment(ns.date.current).endOf('day').format('YYYY/MM/DD HH:mm:ss');
+                    break;
                 case 'yesterday':
-                    this.settings.range_starts  =   moment( ns.date.current ).subtract( 1, 'days' ).startOf( 'day' ).format( 'YYYY/MM/DD HH:mm:ss' );
-                    this.settings.range_ends    =   moment( ns.date.current ).endOf( 'day' ).format( 'YYYY/MM/DD HH:mm:ss' );
-                break;
+                    this.settings.range_starts = moment(ns.date.current).subtract(1, 'days').startOf('day').format('YYYY/MM/DD HH:mm:ss');
+                    this.settings.range_ends = moment(ns.date.current).endOf('day').format('YYYY/MM/DD HH:mm:ss');
+                    break;
                 case 'week':
-                    this.settings.range_starts  =   moment( ns.date.current ).subtract( 6, 'days' ).startOf( 'day' ).format( 'YYYY/MM/DD HH:mm:ss' );
-                    this.settings.range_ends    =   moment( ns.date.current ).endOf( 'day' ).format( 'YYYY/MM/DD HH:mm:ss' );
-                break;
+                    this.settings.range_starts = moment(ns.date.current).subtract(6, 'days').startOf('day').format('YYYY/MM/DD HH:mm:ss');
+                    this.settings.range_ends = moment(ns.date.current).endOf('day').format('YYYY/MM/DD HH:mm:ss');
+                    break;
             }
         },
-
-        debounceForAvailability( table, e ) {
-            if ( table.busy ) {
-                this.mouseDown  =   true;
-                setTimeout( () => {
-                    if ( this.mouseDown ) {
-                        this.setAvailable( table );
+        debounceForAvailability(table, e) {
+            if (table.busy) {
+                this.mouseDown = true;
+                setTimeout(() => {
+                    if (this.mouseDown) {
+                        this.setAvailable(table);
                         e.preventDefault();
                     }
-                }, 600 );
+                }, 600);
             }
         },
-
-        async openOrderOption( order ) {
+        async openOrderOption(order) {
             try {
-                const result    =   await new Promise( ( resolve, reject ) => {
-                    Popup.show( gastroPosOrderOptionsVue, { resolve, reject, order })
+                const result = await new Promise((resolve, reject) => {
+                    Popup.show(gastroPosOrderOptionsVue, { resolve, reject, order });
                 });
-
-                this.showTableHistory( this.selectedTable );
-            } catch( exception ) {
-                console.log( exception );
+                this.showTableHistory(this.selectedTable);
+            }
+            catch (exception) {
+                console.log(exception);
             }
         },
-
-        addProduct( order ) {
-            alert('Invalid! Please use orders tab to add product!')
-            // Gastro.selectedOrder.next( order );
-            // Gastro.setAddButtonsVisibility( 'visible' );
-            // this.popup.close();
+        addProduct(order) {
+            Gastro.selectedOrder.next(order);
+            Gastro.setAddButtonsVisibility('visible');
+            this.popup.close();
         },
-
-        printOrder( order ) {
-            POS.print.process( order.id, 'sale', 'aloud' );
+        printOrder(order) {
+            POS.print.process(order.id, 'sale', 'aloud');
         },
-
-        async payOrder( order ) {
-            const popup         =   Popup.show( nsPOSLoadingPopup );
-            const oldOrder      =   POS.order.getValue();
-
+        async payOrder(order) {
+            const popup = Popup.show(nsPOSLoadingPopup);
+            const oldOrder = POS.order.getValue();
             try {
-                await POS.loadOrder( order.id );
-                const newOrder  =   POS.order.getValue();
-                
-                if ( newOrder.payment_status === 'paid' ) {
+                await POS.loadOrder(order.id);
+                const newOrder = POS.order.getValue();
+                if (newOrder.payment_status === 'paid') {
                     POS.reset();
-                    return nsSnackBar.error( this.localization( 'Unable to make a payment for an already paid order.', 'NsGastro' ) )
+                    return nsSnackBar.error(this.localization('Unable to make a payment for an already paid order.', 'NsGastro'))
                         .subscribe();
                 }
-
-                this.proceedCustomerLoading( oldOrder );
-
+                this.proceedCustomerLoading(oldOrder);
                 /**
                  * the script shold be aware the payment
                  * popup was opened from the PayButton
                  */
-                this.isPaying   =   true;
-            } catch( exception ) {
-                console.log( exception );
+                this.isPaying = true;
             }
-
+            catch (exception) {
+                console.log(exception);
+            }
             popup.close();
         },
-
-        async proceedCustomerLoading( oldOrder ) {
-            const queues    =   [
+        async proceedCustomerLoading(oldOrder) {
+            const queues = [
                 ProductsQueue,
                 CustomerQueue,
                 TypeQueue,
                 PaymentQueue
             ];
-
-            const order     =   POS.order.getValue();
-
-            for( let index in queues ) {
+            const order = POS.order.getValue();
+            for (let index in queues) {
                 try {
-                    const promise   =   new queues[ index ]( order );
-                    const response  =   await promise.run();
-                } catch( exception ) {
+                    const promise = new queues[index](order);
+                    const response = await promise.run();
+                }
+                catch (exception) {
                     /**
                      * in case there is something broken
                      * on the promise, we just stop the queue.
                      */
-                    return false;    
+                    return false;
                 }
             }
         },
-
         async openSettingsOptions() {
             try {
-                const result    =   await new Promise( ( resolve, reject ) => {
-                    Popup.show( gastroKitchenSettingsVue, { fields: [
-                        {
-                            type: 'datetimepicker',
-                            name: 'range_starts',
-                            label: this.localization( 'Start Range', 'NsGastro' ),
-                            value: this.settings.range_starts,
-                            description: this.localization( 'Define when from which moment the orders should be fetched.', 'NsGastro' ),
-                        }, {
-                            type: 'datetimepicker',
-                            name: 'range_ends',
-                            label: this.localization( 'End Range', 'NsGastro' ),
-                            value: this.settings.range_ends,
-                            description: this.localization( 'Define till which moment the orders should be fetched.', 'NsGastro' ),
-                        }
-                    ], resolve, reject, settings: this.settings, title : this.localization( 'Settings', 'NsGastro' ) })
+                const result = await new Promise((resolve, reject) => {
+                    Popup.show(gastroKitchenSettingsVue, { fields: [
+                            {
+                                type: 'datetimepicker',
+                                name: 'range_starts',
+                                label: this.localization('Start Range', 'NsGastro'),
+                                value: this.settings.range_starts,
+                                description: this.localization('Define when from which moment the orders should be fetched.', 'NsGastro'),
+                            }, {
+                                type: 'datetimepicker',
+                                name: 'range_ends',
+                                label: this.localization('End Range', 'NsGastro'),
+                                value: this.settings.range_ends,
+                                description: this.localization('Define till which moment the orders should be fetched.', 'NsGastro'),
+                            }
+                        ], resolve, reject, settings: this.settings, title: this.localization('Settings', 'NsGastro') });
                 });
-
-                this.settings   =   result;
-                this.showTableHistory( this.selectedTable );
-
-
-            } catch( exception ) {
-                console.log( exception );
+                this.settings = result;
+                this.showTableHistory(this.selectedTable);
+            }
+            catch (exception) {
+                console.log(exception);
             }
         },
-        getMealBGClass( product ) {
-            switch( product.cooking_status ) {
+        getMealBGClass(product) {
+            switch (product.cooking_status) {
                 case 'ready':
                     return 'bg-success-secondary';
-                break;
+                    break;
                 case 'ongoing':
                     return 'bg-info-secondary';
-                break;
+                    break;
                 case 'canceled':
                     return 'bg-input-disabled';
-                break;
+                    break;
                 case 'processed':
                     return 'bg-success-secondary';
-                break;
+                    break;
                 case 'requested':
                     return 'bg-warning-secondary';
-                break;
+                    break;
             }
         },
-        getMealProductTextColor( product ) {
-            switch( product.cooking_status ) {
+        getMealProductTextColor(product) {
+            switch (product.cooking_status) {
                 case 'canceled':
                     return 'text-secondary';
-                break;
+                    break;
                 default:
                     return 'text-primary';
             }
         },
-        getMealModifierTextColor( product ) {
-            switch( product.cooking_status ) {
+        getMealModifierTextColor(product) {
+            switch (product.cooking_status) {
                 case 'canceled':
                     return 'text-secondary';
-                break;
+                    break;
                 default:
                     return 'text-primary';
             }
         },
         closePopup() {
             this.popup.close();
-            this.popup.params.reject( false );
+            this.popup.params.reject(false);
         },
         returnToAreas() {
             this.loadAreas();
         },
         returnToTables() {
-            this.selectedTable  =   null;
-            this.loadTables( this.selectedArea );
+            this.selectedTable = null;
+            this.loadTables(this.selectedArea);
         },
         loadAreas() {
-            this.screen         =   'areas';
-            this.areasLoaded    =   false;
-
-            nsHttpClient.get( `/api/gastro/areas` )
+            this.screen = 'areas';
+            this.areasLoaded = false;
+            nsHttpClient.get(`/api/gastro/areas`)
                 .subscribe({
-                    next: result => {
-                        this.areasLoaded    =   true;
-                        this.areas          =   result;
-                    },
-                    error: ( error ) => {
-                        nsSnackBar.error( error.message || this.localization( 'An unexpected error has occured.', 'NsGastro' ), this.localization( 'OK', 'NsGastro' ), { duration: 0 }).subscribe();
-                    }
-                })
+                next: result => {
+                    this.areasLoaded = true;
+                    this.areas = result;
+                },
+                error: (error) => {
+                    nsSnackBar.error(error.message || this.localization('An unexpected error has occured.', 'NsGastro'), this.localization('OK', 'NsGastro'), { duration: 0 }).subscribe();
+                }
+            });
         },
         /**
          * Will set a busy table as available
          * @param {table} table
          * @return void
          */
-        setAvailable( table ) {
-            Popup.show( nsConfirmPopup, {
-                title: this.localization( `Set the table as available ?`, 'NsGastro' ),
-                message: this.localization( `You'll set the table as available, please confirm your action.`, 'NsGastro' ),
-                onAction: ( action ) => {
-                    if ( action ) {
-                        nsHttpClient.post( `/api/gastro/tables/${table.id}/change-availability`, {
+        setAvailable(table) {
+            Popup.show(nsConfirmPopup, {
+                title: this.localization(`Set the table as available ?`, 'NsGastro'),
+                message: this.localization(`You'll set the table as available, please confirm your action.`, 'NsGastro'),
+                onAction: (action) => {
+                    if (action) {
+                        nsHttpClient.post(`/api/gastro/tables/${table.id}/change-availability`, {
                             status: 'available'
                         }).subscribe({
                             next: result => {
                                 // this should refresh the tables
-                                this.loadTables( this.selectedArea );
-
-                                nsSnackBar  
-                                    .success( result.message, this.localization( 'OK', 'NsGastro' ), { duration: 3000 })
+                                this.loadTables(this.selectedArea);
+                                nsSnackBar
+                                    .success(result.message, this.localization('OK', 'NsGastro'), { duration: 3000 })
                                     .subscribe();
                             },
-                            error: ( error ) => {
-                                nsSnackBar  
-                                    .error( error.message || this.localization( 'An unexpected error has occured.', 'NsGastro' ), this.localization( 'OK', 'NsGastro' ), { duration: 3000 })
+                            error: (error) => {
+                                nsSnackBar
+                                    .error(error.message || this.localization('An unexpected error has occured.', 'NsGastro'), this.localization('OK', 'NsGastro'), { duration: 3000 })
                                     .subscribe();
                             }
                         });
@@ -744,130 +688,119 @@ export default {
                 }
             });
         },
-        loadTables( area = null ) {
-            this.selectedArea       =   area;
-            this.screen             =   'tables';
-            this.tableLoaded        =   false;
-            this.additionalTitle    =   null;
-            const subscription      =   area === null ? 
-                nsHttpClient.get( `/api/gastro/tables?filter=${this.filterMode}` ) : 
-                nsHttpClient.get( `/api/gastro/areas/${area.id}/available-tables?filter=${this.filterMode}` );
-
-                subscription.subscribe({
-                    next: result => {
-                        this.tableLoaded    =   true;
-                        this.tables         =   result.map( table => {
-                            table.selectedSeats     =   1;
-                            table.selected          =   this.order.table && this.order.table.id === table.id ? this.order.table : false;
-                            return table;
-                        });
-                    },
-                    error: ( error ) => {
-                        nsSnackBar.error( error.message || this.localization( 'An unexpected error has occured.', 'NsGastro' ), this.localization( 'OK', 'NsGastro' ), { duration: 0 }).subscribe();
-                    }
-                })
+        loadTables(area = null) {
+            this.selectedArea = area;
+            this.screen = 'tables';
+            this.tableLoaded = false;
+            this.additionalTitle = null;
+            const subscription = area === null ?
+                nsHttpClient.get(`/api/gastro/tables?filter=${this.filterMode}`) :
+                nsHttpClient.get(`/api/gastro/areas/${area.id}/available-tables?filter=${this.filterMode}`);
+            subscription.subscribe({
+                next: result => {
+                    this.tableLoaded = true;
+                    this.tables = result.map(table => {
+                        table.selectedSeats = 1;
+                        table.selected = this.order.table && this.order.table.id === table.id ? this.order.table : false;
+                        return table;
+                    });
+                },
+                error: (error) => {
+                    nsSnackBar.error(error.message || this.localization('An unexpected error has occured.', 'NsGastro'), this.localization('OK', 'NsGastro'), { duration: 0 }).subscribe();
+                }
+            });
         },
-        selectQuantity( table ) {
-            if ( this.mode === 'select' ) {
-                return this.proceedSelect( table )
-            } else {                
-                return this.showTableHistory( table );
+        selectQuantity(table) {
+            if (this.mode === 'select') {
+                return this.proceedSelect(table);
+            }
+            else {
+                return this.showTableHistory(table);
             }
         },
-        showTableHistory( table ) {
-            this.selectedTable          =   table;
-            this.additionalTitle        =   this.localization( '{table} : Orders History - {availability}', 'NsGastro' )
-                .replace( '{availability}', table.busy ? this.localization( 'Busy', 'NsGastro' ) : this.localization( 'Available', 'NsGastro' ) )
-                .replace( '{table}', table.name );
-            this.screen                 =   'orders';
-            this.ordersLoaded           =   false;
-            
-            nsHttpClient.post( `/api/gastro/tables/${table.id}/orders`, this.settings )
+        showTableHistory(table) {
+            this.selectedTable = table;
+            this.additionalTitle = this.localization('{table} : Orders History - {availability}', 'NsGastro')
+                .replace('{availability}', table.busy ? this.localization('Busy', 'NsGastro') : this.localization('Available', 'NsGastro'))
+                .replace('{table}', table.name);
+            this.screen = 'orders';
+            this.ordersLoaded = false;
+            nsHttpClient.post(`/api/gastro/tables/${table.id}/orders`, this.settings)
                 .subscribe({
-                    next: orders => {
-                        this.ordersLoaded   =   true;
-                        
-                        orders.map( order => {
-                            if ( this.showDetails[ order.code ] === undefined ) {
-                                this.showDetails[ order.code ] = false;
-                            }
-
-                            return order;
-                        });
-
-                        this.orders         =   orders;
-                    }
-                });
+                next: orders => {
+                    this.ordersLoaded = true;
+                    orders.map(order => {
+                        if (this.showDetails[order.code] === undefined) {
+                            this.showDetails[order.code] = false;
+                        }
+                        return order;
+                    });
+                    this.orders = orders;
+                }
+            });
         },
-        async showProductOptions( product ) {
+        async showProductOptions(product) {
             try {
-                const result    =   await new Promise( ( resolve, reject ) => {
-                    Popup.show( gastroPosProductOptionsVue, { resolve, reject, product })
+                const result = await new Promise((resolve, reject) => {
+                    Popup.show(gastroPosProductOptionsVue, { resolve, reject, product });
                 });
-
                 /**
                  * Will refresh the table, to ensure changes
                  * are reflected.
                  */
-                this.showTableHistory( this.selectedTable );
-
-            } catch( exception ) {
-                console.log( exception );
+                this.showTableHistory(this.selectedTable);
+            }
+            catch (exception) {
+                console.log(exception);
             }
         },
-        async proceedSelect( table ) {
-            if ( this.ns_gastro_seats_enabled ) {
+        async proceedSelect(table) {
+            if (this.ns_gastro_seats_enabled) {
                 try {
                     /**
                      * restoring the default selected
                      * seats for the unselected tables.
                      */
-                    this.tables.forEach( table => {
-                        table.selected          = false;
-                        table.selectedSeats     =   1;
+                    this.tables.forEach(table => {
+                        table.selected = false;
+                        table.selectedSeats = 1;
                     });
-
-                    table  =   await new Promise( ( resolve, reject ) => {
-                        Popup.show( gastroSeatsVue, { resolve, reject, table });
+                    table = await new Promise((resolve, reject) => {
+                        Popup.show(gastroSeatsVue, { resolve, reject, table });
                     });
-
-                } catch ( exception ) {
-                    return nsSnackBar.error( this.localization( 'You need to define the seats before proceeding.', 'NsGastro' ) ).subscribe();
+                }
+                catch (exception) {
+                    return nsSnackBar.error(this.localization('You need to define the seats before proceeding.', 'NsGastro')).subscribe();
                 }
             }
-
             /**
              * the table quantity should have been upated now.
              * let's make sure that table is selected.
              */
-            table.selected      =   true;
-
-            /** 
+            table.selected = true;
+            /**
              * we'll update the table and the area used
              * for the ongoing order.
             */
-            this.order.table_id      =   table.id;
-            this.order.table         =   table;
-            this.order.area_id       =   table.area_id;  
-            
+            this.order.table_id = table.id;
+            this.order.table = table;
+            this.order.area_id = table.area_id;
             /**
-             * if a table is selected without defining the 
+             * if a table is selected without defining the
              * order type, we'll select "Dine in" automatically
              */
-            if ( this.order.type === undefined ) {
-                this.order.type     =   Gastro.getType();
+            if (this.order.type === undefined) {
+                this.order.type = Gastro.getType();
             }
-
             /**
              * update order type label, so that
              * it has the table name on the type label
              */
-            this.order.type.label    =   Gastro.getType().label;
-
-            POS.order.next( this.order );
-
+            this.order.type.label = Gastro.getType().label;
+            POS.order.next(this.order);
             this.popup.close();
-            this.popup.params.resolve( table );
+            this.popup.params.resolve(table);
         }
     }
-}
+};
+//# sourceMappingURL=gastro-table.js.map
