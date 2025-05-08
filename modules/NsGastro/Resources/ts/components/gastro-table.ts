@@ -559,10 +559,9 @@ export default {
         },
 
         addProduct( order ) {
-            alert('Invalid! Please use orders tab to add product!')
-            // Gastro.selectedOrder.next( order );
-            // Gastro.setAddButtonsVisibility( 'visible' );
-            // this.popup.close();
+            Gastro.selectedOrder.next( order );
+            Gastro.setAddButtonsVisibility( 'visible' );
+            this.popup.close();
         },
 
         printOrder( order ) {
